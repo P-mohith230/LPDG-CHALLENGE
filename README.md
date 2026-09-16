@@ -39,8 +39,8 @@
 | **Fleet Scale** | 320 cellular smart-meter telemetry gateways | `gateway_master.csv` |
 | **Scored Evaluation Window** | 8 consecutive Mondays (`2026-02-02` to `2026-03-23`) | [LPDG Brief p. 2, FAQ R1 §5.1] |
 | **Weekly Dispatch Capacity** | Exactly **15 visits per week** (hard constraint) | [LPDG Brief p. 2, FAQ R1 §5.2] |
-| **Total Submission Selections** | Exactly **120 gateway selections** (8 weeks $\times$ 15 visits) | `predictions.csv` |
-| **On-Site Technician Visit Cost** | **€380.00** per dispatch ($120 \times €380 = \mathbf{€45,600}$ fixed) | [LPDG Brief p. 3, FAQ R2 §3.6] |
+| **Total Submission Selections** | Exactly **120 gateway selections** (8 weeks × 15 visits) | `predictions.csv` |
+| **On-Site Technician Visit Cost** | **€380.00** per dispatch (120 × €380 = **€45,600** fixed) | [LPDG Brief p. 3, FAQ R2 §3.6] |
 | **Unaddressed Fault Penalty** | **€600.00** per gateway-week an active fault persists | [LPDG Brief p. 3, FAQ R1 §4.1] |
 | **Production Architecture** | **Candidate C3** (32 Features, HistGradientBoosting, 2-Wk Cooldown) | Selected Champion Pipeline |
 | **Historical Proxy Benchmark Cost** | **€115,200** (vs €128,400 Baseline V1, vs €164,400 3-Sigma) | 16-Week Historical Benchmark |
@@ -71,8 +71,8 @@ $$\text{subject to} \quad \sum_{g \in G} x(g,k) = 15 \quad \forall k \in \{1, \d
 ### Plain-English Economic Mechanics
 
 1. **Fixed Visit Expenditure**: Because every valid submission must dispatch exactly 15 visits every week, the total visit cost is constant:
-   $$C_{\text{visit}} = 15 \times 8 \times €380 = \mathbf{€45,600} \quad (\text{Competition Window})$$
-   $$C_{\text{visit}} = 15 \times 16 \times €380 = \mathbf{€91,200} \quad (\text{16-Week Historical Benchmark})$$
+   $$C_{\text{visit}} = 15 \times 8 \times 380 = 45{,}600\text{ EUR} \quad (\text{Competition Window})$$
+   $$C_{\text{visit}} = 15 \times 16 \times 380 = 91{,}200\text{ EUR} \quad (\text{16-Week Historical Benchmark})$$
 2. **Variable Optimization Margin**: The entire financial divergence between strategies is determined by **how effectively the 15 weekly slots intercept active fault episodes**, preventing the compounding €600/week penalty.
 
 ---
@@ -131,11 +131,11 @@ Candidate C3 (Promoted Champion Pipeline)  ████████████�
 
 ### Benchmark Cost Differences:
 - **C3 vs 3-Sigma Reference Baseline**:
-  $$\frac{€115,200 - €164,400}{€164,400} = \mathbf{-29.93\%} \quad (-\mathbf{€49,200} \text{ operational cost difference, } \mathbf{-67.2\%} \text{ penalty reduction})$$
+  $$\frac{115{,}200 - 164{,}400}{164{,}400} = -29.93\% \quad (-49{,}200\text{ EUR difference, } -67.2\%\text{ penalty reduction})$$
 - **C3 vs Frozen Baseline V1**:
-  $$\frac{€115,200 - €128,400}{€128,400} = \mathbf{-10.28\%} \quad (-\mathbf{€13,200} \text{ operational cost difference, } \mathbf{-35.5\%} \text{ penalty reduction})$$
+  $$\frac{115{,}200 - 128{,}400}{128{,}400} = -10.28\% \quad (-13{,}200\text{ EUR difference, } -35.5\%\text{ penalty reduction})$$
 - **C3 vs Candidate C10**:
-  $$\frac{€115,200 - €117,600}{€117,600} = \mathbf{-2.04\%} \quad (-\mathbf{€2,400} \text{ lower cost, 4 fewer unaddressed faults, 42% lower CV fold variance})$$
+  $$\frac{115{,}200 - 117{,}600}{117{,}600} = -2.04\% \quad (-2{,}400\text{ EUR difference, 4 fewer unaddressed faults})$$
 
 ---
 
@@ -213,29 +213,33 @@ Every engineered feature is grounded in physical domain invariants and audited f
 ### 1. Operational Proxy Target
 Smart meter collection deficits directly induce utility financial penalties (€600/week unaddressed fault). The forward target is evaluated over the subsequent 7-day interval $[T, T + 7\text{d})$:
 
-$$Y_{g, k+1} = \mathbb{I}\left(\frac{\text{meters\_read}_{g, k+1}}{\text{meters\_expected}_{g, k+1}} < 0.50\right)$$
+$$Y_{g, k+1} = \mathbb{I}\left(\frac{\text{MetersRead}_{g, k+1}}{\text{MetersExpected}_{g, k+1}} < 0.50\right)$$
 
 *Status*: Historical proxy target used for offline model development and benchmarking, not hidden official ground truth.
 
 ### 2. Wall-Clock Bounded Peak Offline Duration
-Raw telemetry `offline_duration_sec` acts as a frozen register snapshot that repeats across consecutive rows when a gateway hangs. To eliminate impossible values (e.g. 3,901h in a week), we evaluate the peak disconnection event bounded strictly by wall-clock time:
+Raw telemetry `offline_duration_sec` acts as a frozen register snapshot that repeats across consecutive rows when a gateway hangs. To eliminate impossible values (e.g. 3,901h in a week), we evaluate the peak disconnection event bounded strictly by wall-clock time (`feat_offline_hours`):
 
-$$\text{feat\_offline\_hours} = \min\left(168.0, \; \frac{\max_{t < T}(\text{offline\_duration\_sec})}{3600.0}\right)$$
+$$\text{OfflineHours}_{g, k} = \min\left(168.0, \; \frac{\max_{t < T}(\text{OfflineDurationSec})}{3600.0}\right)$$
 
 ### 3. Physical Hourly Conservation Law
 Because high-traffic gateways transmit multiple packet bursts per clock hour, counting raw rows inflated observed time beyond 168 hours. We enforce distinct hourly floor bucketing:
 
-$$\text{feat\_observed\_hours} = \min\left(168.0, \; \left|\big\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \big\}\right|\right)$$
-$$\text{feat\_missing\_hours} = 168.0 - \text{feat\_observed\_hours} \implies \text{feat\_observed\_hours} + \text{feat\_missing\_hours} \equiv 168.0$$
+$$\text{ObservedHours}_{g, k} = \min\left(168.0, \; \left|\big\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \big\}\right|\right)$$
+$$\text{MissingHours}_{g, k} = 168.0 - \text{ObservedHours}_{g, k} \implies \text{ObservedHours}_{g, k} + \text{MissingHours}_{g, k} \equiv 168.0$$
+
+*(In code: `feat_observed_hours + feat_missing_hours == 168.0` strictly enforced)*.
 
 ### 4. Gateway-Specific Self-Baselines
 Different gateways exhibit vastly different normal operating baselines due to static antenna gain (Yagi 9dBi averages 389,000 packets/week vs 4,600 for Omni 3dBi) and local meter counts. Comparing everyone against a single global fleet threshold creates false alarms.
 
 We compute asset-specific deviations against the gateway's own prior 28-day operating history $[T - 28\text{d}, T - 7\text{d})$ with a strict 72-hour cold-start guard:
 
-$$z_{\text{offline}} = \frac{r_{\text{offline\_peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}, \qquad z_{\text{missing}} = \frac{r_{\text{missing\_hours}} - \mu_{g,\text{missing\_weekly}}}{12.0}$$
+$$z_{\text{offline}} = \frac{r_{\text{peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}, \qquad z_{\text{missing}} = \frac{r_{\text{missing}} - \mu_{g,\text{weekly}}}{12.0}$$
 
-$$\text{feat\_gw\_relative\_anomaly\_score} = \max(0, z_{\text{offline}}) + \max(0, z_{\text{missing}}) + \max(0, z_{\text{disconns}})$$
+$$\text{AnomalyScore}_{g, k} = \max(0, z_{\text{offline}}) + \max(0, z_{\text{missing}}) + \max(0, z_{\text{disconns}})$$
+
+*(In code: `feat_gw_z_offline`, `feat_gw_z_missing`, and `feat_gw_relative_anomaly_score`)*.
 
 If a gateway has $<72\text{h}$ of operating history, it seamlessly falls back to fleet medians (4.30% cold-start prevalence).
 
@@ -365,15 +369,15 @@ To guarantee scientific validity, the evaluation methodology enforces strict tem
 
 | Concept | Mathematical / Logical Formulation | Code Reference |
 | :--- | :--- | :--- |
-| **Proxy Target** | $Y_{g, k+1} = \mathbb{I}\left(\frac{\text{meters\_read}_{g, k+1}}{\text{meters\_expected}_{g, k+1}} < 0.50\right)$ | `src/models/target.py` |
+| **Proxy Target** | $Y_{g, k+1} = \mathbb{I}\left(\frac{\text{MetersRead}_{g, k+1}}{\text{MetersExpected}_{g, k+1}} < 0.50\right)$ | `src/models/target.py` |
 | **Capacity Constraint** | $\sum_{g \in G} x(g,k) = 15 \quad \forall k \in \{1, \dots, K\}$ | `src/models/decision_policy.py` |
-| **Weekly Fixed Budget** | $C_{\text{visit}} = 15 \times 8 \times €380 = €45,600$ | `src/utils/config.py` |
+| **Weekly Fixed Budget** | $C_{\text{visit}} = 15 \times 8 \times 380 = 45{,}600\text{ EUR}$ | `src/utils/config.py` |
 | **Benchmark Objective** | $\min \sum_k \sum_g \left( 380 \cdot x(g,k) + 600 \cdot u(g,k) \right)$ | `src/evaluation/cost_simulator.py` |
-| **Peak Offline Bound** | $\text{feat\_offline\_hours} = \min\left(168.0, \frac{\max(\text{offline\_duration\_sec})}{3600.0}\right)$ | `src/features/builder.py` |
-| **Hourly Conservation** | $\text{feat\_observed\_hours} + \text{feat\_missing\_hours} \equiv 168.0$ | `src/features/builder.py` |
-| **Gateway Baseline Z-Score** | $z_{\text{offline}} = \frac{r_{\text{offline\_peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}$ | `src/features/gateway_baseline.py` |
+| **Peak Offline Bound** | $\text{OfflineHours} = \min\left(168.0, \; \frac{\max(\text{OfflineSec})}{3600.0}\right)$ | `src/features/builder.py` |
+| **Hourly Conservation** | $\text{ObservedHours} + \text{MissingHours} \equiv 168.0$ | `src/features/builder.py` |
+| **Gateway Baseline Z-Score** | $z_{\text{offline}} = \frac{r_{\text{peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}$ | `src/features/gateway_baseline.py` |
 | **2-Week Cooldown** | $x(g,k) = 0 \quad \text{if } g \in \text{Visited}(k-1) \cup \text{Visited}(k-2)$ | `src/models/decision_policy.py` |
-| **Deterministic Tie-Break** | $\text{Key} = (-p(g, k), \; \text{gateway\_id})$ | `src/models/decision_policy.py` |
+| **Deterministic Tie-Break** | $\text{SortKey} = (-p(g, k), \; \text{GatewayID})$ | `src/models/decision_policy.py` |
 
 ---
 
@@ -430,7 +434,7 @@ To maintain scientific integrity, the known operational limitations of the pipel
 
 1. **Sub-Weekly Transient Micro-Outages**: Telemetry is aggregated into trailing 7-day windows aligned with weekly Monday dispatch boundaries. A transient outage that resolves in 6 hours on Wednesday will not trigger a high risk score for the subsequent week.
 2. **Static Cooldown Window**: The 2-week cooldown is uniform across all assets, regardless of repair complexity. An asset requiring only an antenna realignment is suppressed for the same 14-day duration as an asset undergoing a full modem replacement.
-3. **Operational Business Proxy**: The model predicts smart meter collection collapse ($\text{read\_ratio} < 0.50$). This is an operational business proxy rather than direct physical hardware ground truth; environmental cell tower outages can trigger deficits without internal gateway faults.
+3. **Operational Business Proxy**: The model predicts smart meter collection collapse (`read_ratio` < 0.50). This is an operational business proxy rather than direct physical hardware ground truth; environmental cell tower outages can trigger deficits without internal gateway faults.
 4. **Counterfactual Telemetry Immobility**: The raw telemetry in the dataset is historical and static. While the economic simulator counterfactually models episode interruption upon technician visit, the underlying physical telemetry does not dynamically alter post-dispatch.
 
 ---
