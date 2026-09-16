@@ -49,4 +49,4 @@
 - [x] **C3 architecture documented**: Promoted Champion Pipeline clearly detailed.
 - [x] **Innovation results documented**: Innovations 1 through 5 fully documented with quantitative matrices.
 - [x] **Rejected novelty documented**: Rejection of Innovation 5 from primary dispatch fully justified with forensic data.
-- [x] **Operational walkthrough video complete**: `LPDG_INNOVATION_HUB.mp4` committed to repository and embedded in `README.md` Section 17 with continuous playback.
+- [x] **Operational walkthrough video complete**: `LPDG_INNOVATION_HUB.mp4` committed to repository, embedded in `README.md` Section 17 with continuous playback, and linked to Google Drive stream.

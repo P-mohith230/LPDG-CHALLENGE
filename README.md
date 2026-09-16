@@ -598,13 +598,14 @@ python -m streamlit run app/app.py
 The complete live operational walkthrough demonstrating the interactive decision-support platform, 3D WebGL Operations Control Center, gateway self-baseline telemetry, and model intelligence features is recorded and embedded below:
 
 <div align="center">
-  <video src="LPDG_INNOVATION_HUB.mp4" autoplay loop muted playsinline width="100%"></video>
+  <a href="https://drive.google.com/file/d/11Oic11_LiNvgJizEnwqtMP_hrkqfibAb/view?usp=sharing" target="_blank">
+    <img src="docs/images/lpdg_innovation_hub_recording.webp" alt="LPDG Innovation Hub Operational Walkthrough Recording" width="100%"/>
+  </a>
+  <br/><br/>
   <p>
-    <a href="LPDG_INNOVATION_HUB.mp4">
-      <img src="docs/images/lpdg_innovation_hub_recording.webp" alt="LPDG Innovation Hub Operational Walkthrough (Continuous Recording)" width="100%"/>
-    </a>
+    🎬 <strong><a href="https://drive.google.com/file/d/11Oic11_LiNvgJizEnwqtMP_hrkqfibAb/view?usp=sharing" target="_blank">Watch Full 1080p Recording on Google Drive (Stream / High Bitrate)</a></strong> &nbsp;|&nbsp; 
+    📥 <strong><a href="LPDG_INNOVATION_HUB.mp4">Download Repository MP4 Video</a></strong>
   </p>
-  <p><em>Continuous live recording of the LPDG Operations Control Center & Intelligence Platform. Click to open or download the full <a href="LPDG_INNOVATION_HUB.mp4"><strong>Full HD Operational Walkthrough Video (MP4)</strong></a>.</em></p>
 </div>
 
 ---
