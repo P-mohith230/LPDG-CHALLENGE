@@ -5,7 +5,9 @@
 **Candidate Name**: <b>PAGADALA MOHITH</b>                            
 **Candidate Registration ID**: `23091A3286`  
 **Candidate Resume**: [`23091A3286.pdf`](23091A3286.pdf) (Pagadala Mohith)  
-**Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
+**Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)
+**Streamlit Dashboard live**: https://nexora-lpdg-challenge.streamlit.app/
+
 
 [![Part 2 Track: Data Science](https://img.shields.io/badge/Part_2_Track_D-Data_Science-blue?style=flat-square)](DECISIONS.md)
 [![Part 2 Track: Machine Learning](https://img.shields.io/badge/Part_2_Track_E-Machine_Learning-blueviolet?style=flat-square)](DECISIONS.md)
