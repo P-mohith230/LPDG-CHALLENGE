@@ -1,0 +1,192 @@
+[
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/01-Challenge-Brief.pdf",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/01-Challenge-Brief.pdf",
+    "filename": "01-Challenge-Brief.pdf",
+    "extension": ".pdf",
+    "size_bytes": 753649,
+    "size_human": "735.99 KB",
+    "category": "Documentation",
+    "purpose": "Official challenge specification or data dictionary"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/02-Data-Dictionary.pdf",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/02-Data-Dictionary.pdf",
+    "filename": "02-Data-Dictionary.pdf",
+    "extension": ".pdf",
+    "size_bytes": 752562,
+    "size_human": "734.92 KB",
+    "category": "Documentation",
+    "purpose": "Official challenge specification or data dictionary"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data.zip",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data.zip",
+    "filename": "03-challenge-data.zip",
+    "extension": ".zip",
+    "size_bytes": 70128744,
+    "size_human": "66.88 MB",
+    "category": "Archive",
+    "purpose": "Original compressed data archive"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/baseline_3sigma.py",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/baseline_3sigma.py",
+    "filename": "baseline_3sigma.py",
+    "extension": ".py",
+    "size_bytes": 4982,
+    "size_human": "4.87 KB",
+    "category": "Baseline Code",
+    "purpose": "Reference 3-sigma anomaly baseline algorithm"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/README.txt",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/README.txt",
+    "filename": "README.txt",
+    "extension": ".txt",
+    "size_bytes": 1732,
+    "size_human": "1.69 KB",
+    "category": "Documentation",
+    "purpose": "Quickstart and instructions readme"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/validate_submission.py",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/validate_submission.py",
+    "filename": "validate_submission.py",
+    "extension": ".py",
+    "size_bytes": 4905,
+    "size_human": "4.79 KB",
+    "category": "Validation Code",
+    "purpose": "Official submission schema and format validator"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/engineer_review_2026-02.xlsx",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/engineer_review_2026-02.xlsx",
+    "filename": "engineer_review_2026-02.xlsx",
+    "extension": ".xlsx",
+    "size_bytes": 9748,
+    "size_human": "9.52 KB",
+    "category": "Expert Review Data",
+    "purpose": "Single-day expert engineer health assessment from Feb 15 2026"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/field_visits.csv",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/field_visits.csv",
+    "filename": "field_visits.csv",
+    "extension": ".csv",
+    "size_bytes": 64090,
+    "size_human": "62.59 KB",
+    "category": "Historical Operations Data",
+    "purpose": "Past site work orders, reasons, outcomes, parts replaced"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/gateway_master.csv",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/gateway_master.csv",
+    "filename": "gateway_master.csv",
+    "extension": ".csv",
+    "size_bytes": 31936,
+    "size_human": "31.19 KB",
+    "category": "Master Data",
+    "purpose": "Gateway registry, hardware, installation dates, meter counts"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/meter_read_success.csv",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/meter_read_success.csv",
+    "filename": "meter_read_success.csv",
+    "extension": ".csv",
+    "size_bytes": 227704,
+    "size_human": "222.37 KB",
+    "category": "Business Metering Data",
+    "purpose": "Weekly expected vs actual meter read counts"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry_sample_2025-08.csv",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry_sample_2025-08.csv",
+    "filename": "telemetry_sample_2025-08.csv",
+    "extension": ".csv",
+    "size_bytes": 42051071,
+    "size_human": "40.10 MB",
+    "category": "Sample Telemetry Data",
+    "purpose": "Unpartitioned CSV sample of August 2025 telemetry"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-08/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-08/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 8017932,
+    "size_human": "7.65 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-09/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-09/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7757566,
+    "size_human": "7.40 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-10/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-10/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7867878,
+    "size_human": "7.50 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-11/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-11/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7569626,
+    "size_human": "7.22 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-12/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2025-12/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7715617,
+    "size_human": "7.36 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-01/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-01/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7728590,
+    "size_human": "7.37 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-02/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-02/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 7197856,
+    "size_human": "6.86 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  },
+  {
+    "path": "m:/LPDGE/OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-03/part-0.parquet",
+    "relative_path": "OneDrive_2026-08-31/Innovation Hub 2026/03-challenge-data/data/telemetry/month=2026-03/part-0.parquet",
+    "filename": "part-0.parquet",
+    "extension": ".parquet",
+    "size_bytes": 8274512,
+    "size_human": "7.89 MB",
+    "category": "Raw Telemetry Data",
+    "purpose": "Hourly gateway telemetry partitioned by month"
+  }
+]
