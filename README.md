@@ -237,7 +237,7 @@ $$\text{OfflineHours}_{g, k} = \min\left(168.0, \; \frac{\max_{t < T}(\text{Offl
 ### 3. Physical Hourly Conservation Law
 Because high-traffic gateways transmit multiple packet bursts per clock hour, counting raw rows inflated observed time beyond 168 hours. We enforce distinct hourly floor bucketing:
 
-$$\text{ObservedHours}_{g, k} = \min\left(168.0, \; \left| \left\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \right\} \right|\right)$$
+$$\text{ObservedHours}_{g, k} = \min(168.0, \; |\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \}|)$$
 $$\text{MissingHours}_{g, k} = 168.0 - \text{ObservedHours}_{g, k} \implies \text{ObservedHours}_{g, k} + \text{MissingHours}_{g, k} \equiv 168.0$$
 
 *(In code: `feat_observed_hours + feat_missing_hours == 168.0` strictly enforced)*.
