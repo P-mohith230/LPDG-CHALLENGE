@@ -19,17 +19,21 @@ streamlit run app/app.py
   - *Weekly Visit Capacity*: 15 visits / week (€5,700 weekly rate).
   - *Gateways Above Operational Threshold*: Count of gateways with predicted risk $p \ge 0.50$ (operational target deficit threshold).
   - *Mean Priority Risk*: Average failure probability across the Top 15 dispatches for the active week.
-  - *Avoided Deficit Penalties*: Avoided penalty (€600 per intercepted fault).
+  - *Weekly Visit Expenditure*: Contracted expenditure for the active week (€5,700/week; €45,600 total challenge budget).
+- **Executive Fleet Readiness Matrix**: Instant status tally of monitored fleet assets (332 total), active dispatches (15), nominal ground datum assets (317), and cooldown enforcement.
 - **3D Operational Fleet View**:
-  - Rotate, pan, and zoom using standard orbit mouse controls.
-  - Observe elevation: Higher nodes represent higher predicted risk.
-  - Hover over any node to reveal Gateway ID, Risk Probability, and Elevation.
-  - Click any node to focus the camera and view its details in the Quick Inspector.
+  - Rotate, pan, and zoom using standard orbit mouse controls (with smooth 60fps damping).
+  - **Precision Telemetry Pillars**: Dispatched nodes rise above the ground datum with height directly proportional to risk ($y = p \times 14.0\text{m}$), capped with luminous sensor caps.
+  - **Dual Iso-Planes**: Observe translucent amber ($p=0.50$) and crimson ($p=0.70$) reference rings for instant visual threshold reading.
+  - **Vertical Risk Ruler**: Calibrated datum gauge at $X=-23, Z=-23$ with tick marks at 0%, 30%, 50%, 70%, and 100% risk probability.
+  - **On-Canvas Viewport Presets**: Click `[📐 Isometric]`, `[🗺️ Top-Down]`, `[🎯 Focus Top 15]`, `[👁️ Filter: All / Dispatched]`, or `[🔄 Reset]` to transition camera perspectives smoothly.
+  - **CAD Tooltip**: Hover over any asset to reveal a structured inspection card with risk probability, elevation datum, antenna type, meter count, and operational explanation.
 - **Top 15 Priority Dispatches Table**: Ranks 1 to 15 with risk percentages, status tiers, and diagnostic explanations.
 
 ### 2. Gateway Explorer
-- **Fleet Search & Filters**: Search by Gateway ID or filter by antenna hardware (`Yagi 9 dBi`, `Omni 3 dBi`, etc.) and priority dispatch status.
-- **Fleet Catalog Table**: Comprehensive asset list with antenna models, associated smart meters, and risk statuses.
+- **Antenna Hardware Cohort Distribution**: Interactive breakdown showing fleet asset allocation and priority dispatch distribution across antenna gain specifications (`Yagi 9 dBi`, `Omni 3 dBi`, `Panel 7 dBi`, etc.).
+- **Fleet Search & Filters**: Search by Gateway ID or filter by antenna hardware and priority dispatch status.
+- **Fleet Catalog Table**: Comprehensive asset list with antenna models, associated smart meters, priority ranks, and risk statuses.
 - **Individual Asset Inspector**: Deep dive into any selected gateway showing hardware details, diagnostic attribution, and 2D historical collection read-ratio curves.
 
 ### 3. Visit Prioritization
@@ -48,6 +52,7 @@ streamlit run app/app.py
 - **Physical Domain Invariants**: Explains wall-clock peak offline bounding and physical hourly conservation.
 - **Permutation Feature Importance**: Horizontal bar chart showing relative importance across feature families evaluated on the 5-fold gateway-disjoint CV split.
 - **Diagnostic Failure Signatures**: Table of the 5 grounded signatures from `SIGNATURE_REGISTRY`.
+- **Diagnostic Maintenance Action Playbook**: Actionable standard operating procedures mapping each diagnostic signature to physical technician on-site repair actions and required tooling.
 
 ### 5. Economic Analysis
 - **Dual-Horizon Financial Panels**:

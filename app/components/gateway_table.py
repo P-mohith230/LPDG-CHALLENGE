@@ -37,7 +37,7 @@ def render_priority_table(
 
     st.dataframe(
         formatted_table,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Rank": st.column_config.NumberColumn("Rank", width="small", format="#%d"),

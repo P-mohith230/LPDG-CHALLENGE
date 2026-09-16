@@ -143,7 +143,7 @@ Top 15 Official Technician Dispatches (predictions.csv)
         yaxis=dict(autorange="reversed"),
         margin=dict(l=30, r=30, t=40, b=30),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
 
@@ -160,7 +160,48 @@ Top 15 Official Technician Dispatches (predictions.csv)
             "Description": sig.description,
             "Weight": f"{sig.weight:.2f}",
         })
-    st.dataframe(sig_records, use_container_width=True, hide_index=True)
+    st.dataframe(sig_records, width="stretch", hide_index=True)
+
+    st.markdown("---")
+
+    # Physical Maintenance Action Playbook
+    st.markdown("### 🛠️ Diagnostic Maintenance Action Playbook")
+    st.caption("Standard Operating Procedure (SOP) mapping diagnostic failure alerts to physical technician field interventions.")
+
+    playbook_records = [
+        {
+            "Signature": "SIG_01 (Complete Radio Outage)",
+            "Physical Phenomenon": "Sharp total drop in packet reception with zero RF frames over 48+ hours.",
+            "Technician Field Intervention": "Inspect RF coaxial feedline and N-type connectors for water ingress/corrosion; test antenna VSWR with portable analyzer.",
+            "Required Tooling": "RF Spectrum Analyzer, Coaxial Crimper, Weatherproofing Tape",
+        },
+        {
+            "Signature": "SIG_02 (Severe Battery Degradation)",
+            "Physical Phenomenon": "Diurnal power cycle brownouts; telemetry ceases during night hours and recovers at sunrise.",
+            "Technician Field Intervention": "Measure open-circuit terminal voltage under 5A pulse load; test solar charge controller MPPT output; replace 12V LiFePO4 battery pack.",
+            "Required Tooling": "Digital Multimeter, Battery Load Tester, Replacement LiFePO4 Pack",
+        },
+        {
+            "Signature": "SIG_03 (Firmware Crash Loop)",
+            "Physical Phenomenon": "Excessive reboot counter (>10 reboots/day) with short uptime intervals.",
+            "Technician Field Intervention": "Connect field serial debug console; capture kernel crash traceback; flash golden recovery firmware v2.4; replace watchdog supervisor IC.",
+            "Required Tooling": "USB-to-UART Serial Cable, Rugged Field Laptop, Recovery Flash Image",
+        },
+        {
+            "Signature": "SIG_04 (Extreme Path Loss / Range Collapse)",
+            "Physical Phenomenon": "Average RSSI drops below -120 dBm and SNR collapses across connected meters.",
+            "Technician Field Intervention": "Verify directional Yagi antenna azimuth and elevation alignment against mast compass; clear line-of-sight foliage obstruction.",
+            "Required Tooling": "Compass / Inclinometer, Mast Climbing Harness, Antenna Alignment Tool",
+        },
+        {
+            "Signature": "SIG_05 (Chronic Collection Collapse)",
+            "Physical Phenomenon": "Long-term collection read ratio falls below 0.50 threshold across consecutive weeks.",
+            "Technician Field Intervention": "Inspect packet forwarder daemon log; check cellular modem RSRP/RSRQ signal quality; re-seat SIM card or replace cellular whip antenna.",
+            "Required Tooling": "LTE Signal Meter, Replacement Cellular Antenna, Spare Mainboard",
+        },
+    ]
+
+    st.dataframe(playbook_records, width="stretch", hide_index=True)
 
 
 if __name__ == "__main__":

@@ -16,6 +16,8 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 
+import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 from app.components.gateway_detail import render_gateway_inspector
@@ -62,7 +64,48 @@ def render() -> None:
         lambda s: get_risk_badge(s)[0] if s is not None else "Normal Fleet Range"
     )
 
-    # Filtering Controls
+    # 1. Antenna Hardware Cohort Analysis
+    if "antenna_type" in catalog_display.columns:
+        st.markdown("### 📡 Antenna Hardware Cohort Distribution")
+        st.caption("Distribution of fleet assets and prioritized dispatches across antenna gain specifications.")
+
+        cohort_summary = []
+        for ant, group in catalog_display.groupby("antenna_type"):
+            total_gws = len(group)
+            dispatched = group["rank"].notna().sum()
+            avg_score = group[group["rank"].notna()]["score"].mean() if dispatched > 0 else 0.0
+            cohort_summary.append({
+                "Antenna Type": str(ant),
+                "Fleet Count": total_gws,
+                "Top 15 Dispatches": int(dispatched),
+                "Mean Dispatched Risk": f"{avg_score*100:.1f}%" if dispatched > 0 else "0.0% (None)",
+            })
+
+        c_df = pd.DataFrame(cohort_summary)
+        col_c1, col_c2 = st.columns([1.6, 1.0])
+        with col_c1:
+            fig_ant = px.bar(
+                c_df,
+                x="Antenna Type",
+                y="Fleet Count",
+                color="Top 15 Dispatches",
+                text="Top 15 Dispatches",
+                title="Fleet Asset Allocation by Antenna Type (Color: Dispatched Count)",
+                color_continuous_scale="Viridis",
+                template="plotly_dark",
+            )
+            fig_ant.update_layout(
+                paper_bgcolor="#1E222D",
+                plot_bgcolor="#131722",
+                margin=dict(l=30, r=30, t=40, b=30),
+            )
+            st.plotly_chart(fig_ant, width="stretch")
+        with col_c2:
+            st.markdown("#### Hardware Cohort Metrics")
+            st.dataframe(c_df, width="stretch", hide_index=True)
+        st.markdown("---")
+
+    # 2. Filtering Controls
     fcol1, fcol2, fcol3 = st.columns(3)
 
     with fcol1:
@@ -107,7 +150,7 @@ def render() -> None:
             "score": "Risk Probability",
             "status_tier": "Status Tier",
         }),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 

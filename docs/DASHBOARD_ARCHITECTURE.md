@@ -78,19 +78,30 @@ The application structurally and visually enforces a firewall between two distin
 Built in accordance with the MengTo `threejs` and `webgl-3d-object` skill best practices:
 - **Renderer Setup**:
   - `THREE.WebGLRenderer` configured with `powerPreference: "high-performance"`, `antialias: true`, `alpha: false`.
-  - Color space: `ACESFilmicToneMapping` with exposure 1.1; sRGB output.
+  - Color space: `ACESFilmicToneMapping` with exposure 1.15; sRGB output.
 - **Visual Encoding Philosophy**:
-  - **Primary Encoding**: **Elevation (Y-axis)** directly reflects predicted failure risk $p \in [0, 1]$ ($y = p \times 14.0$). High-risk nodes tower above the baseline ground plane.
+  - **Primary Encoding**: **Elevation (Y-axis)** directly reflects predicted failure risk $p \in [0, 1]$ ($y = p \times 14.0$). High-risk nodes tower above the baseline ground plane as vertical telemetry pillars.
   - **Secondary Encoding**: **Color** mapping into calm industrial tiers:
     - Slate Blue (`#3B82F6`): Normal fleet range ($p < 0.30$).
     - Warm Amber (`#F59E0B`): Moderate risk ($0.30 \le p < 0.70$).
     - Coral Crimson (`#EF4444`): High / Critical risk ($p \ge 0.70$).
-  - **Orbital Priority Reticle**: The 15 prioritized dispatches for the week receive a purple orbital wireframe indicator (`#8B5CF6`).
-  - **Animation**: Subtle sine breathing pulse applied *only* to the currently selected or prioritized nodes.
+    - Ground Slate (`#334155`): Nominal undispatched fleet assets resting at $Y = 0.0\text{m}$.
+  - **Precision Telemetry Pillars**: Dispatched gateways feature a vertical laser stem anchored to the ground plane, topped with a metallic sensor cap and an orbital wireframe reticle (`#8B5CF6`).
+  - **Dual Elevation Iso-Planes**:
+    - **$p = 0.50$ Iso-Plane ($Y = 7.0\text{m}$)**: Translucent amber reference ring marking the operational collection deficit threshold.
+    - **$p = 0.70$ Iso-Plane ($Y = 9.8\text{m}$)**: Translucent crimson reference ring marking critical failure risk.
+  - **Vertical Risk Elevation Ruler**: A calibrated vertical datum gauge positioned at $X=-23, Z=-23$ with tick marks at 0%, 30%, 50%, 70%, and 100% risk probability.
+  - **Calm CAD Rendering (Zero Disturbing Motion)**: Eliminates jerky sine-wave scaling; assets remain rock-solid in place with smooth, damped 60fps camera controls.
 - **Controls & Pointer Interaction**:
-  - `THREE.OrbitControls` with damping enabled (`dampingFactor: 0.05`), distance constraints (`minDistance: 10`, `maxDistance: 120`), and polar angle lock to prevent underground camera dipping.
-  - Pointer raycasting on `pointermove` showing instant tooltip (Gateway ID, Risk Probability, Elevation).
-  - Click-to-focus: Camera controls target eases directly to the clicked node.
+  - `THREE.OrbitControls` with damping enabled (`dampingFactor: 0.06`), distance constraints (`minDistance: 8`, `maxDistance: 140`), and polar angle lock.
+  - **Interactive On-Canvas Viewport Presets**:
+    - `[ 📐 Isometric ]`: 45-degree isometric projection of the fleet elevation profile.
+    - `[ 🗺️ Top-Down ]`: Orthogonal birds-eye view for spatial density inspection.
+    - `[ 🎯 Focus Top 15 ]`: Smooth camera interpolation focusing on the centroid of prioritized dispatches.
+    - `[ 👁️ Filter: All / Dispatched ]`: Toggles visibility of the 317 undispatched ground datum assets.
+    - `[ 🔄 Reset ]`: Reverts camera to default vantage.
+  - Pointer raycasting on `pointermove` showing a structured high-density CAD inspection card (Asset ID, Risk %, Elevation, Antenna Hardware, Meter Count, Status Reason).
+  - Click-to-focus: Smooth camera interpolation (`lerp`) targeting the clicked node.
 - **Topological Layout Labeling**:
   - Explicitly labeled: `"Operational Network / Fleet View — Abstract topology, not geographic coordinates."`
   - No synthetic maps or fake coordinates.

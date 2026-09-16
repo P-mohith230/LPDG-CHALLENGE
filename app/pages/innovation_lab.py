@@ -78,7 +78,7 @@ def render() -> None:
             "feature_count": "Features",
             "unaddressed_faults": "Unaddressed Faults",
         }),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 

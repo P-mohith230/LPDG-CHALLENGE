@@ -83,7 +83,7 @@ def render_temporal_risk_trends(df_preds: pd.DataFrame, gateway_id: str | None =
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 
 def render_risk_distribution(df_week: pd.DataFrame) -> None:
@@ -109,7 +109,7 @@ def render_risk_distribution(df_week: pd.DataFrame) -> None:
         margin=dict(l=40, r=40, t=50, b=40),
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 
 def render_configuration_trade_off_chart(df_configs: pd.DataFrame) -> None:
@@ -151,4 +151,4 @@ def render_configuration_trade_off_chart(df_configs: pd.DataFrame) -> None:
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")

@@ -133,7 +133,7 @@ def render() -> None:
     st.caption("Every metric and chart displayed in the application is traced directly to its authoritative source.")
 
     prov_rows = [{"Dashboard Domain": k.replace("_", " ").title(), "Workspace Source": v} for k, v in PROVENANCE.items()]
-    st.dataframe(prov_rows, use_container_width=True, hide_index=True)
+    st.dataframe(prov_rows, width="stretch", hide_index=True)
 
 
 if __name__ == "__main__":

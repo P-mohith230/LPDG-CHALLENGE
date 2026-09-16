@@ -44,7 +44,7 @@ def render_dispatch_schedule(df_all_preds: pd.DataFrame) -> None:
             plot_bgcolor="#131722",
             margin=dict(l=30, r=30, t=40, b=30),
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col2:
         st.markdown("#### Gateway Dispatch Frequency")
@@ -52,7 +52,7 @@ def render_dispatch_schedule(df_all_preds: pd.DataFrame) -> None:
         multi_dispatches = dispatch_counts[dispatch_counts["total_dispatches"] > 1]
         st.dataframe(
             multi_dispatches,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
             column_config={
                 "gateway_id": "Gateway ID",

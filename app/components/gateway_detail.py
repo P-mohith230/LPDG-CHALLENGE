@@ -88,8 +88,8 @@ def render_gateway_inspector(details: dict[str, Any]) -> None:
                 yaxis_range=[0.0, 1.05],
                 margin=dict(l=30, r=30, t=40, b=30),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
         else:
-            st.dataframe(history_df.head(10), use_container_width=True)
+            st.dataframe(history_df.head(10), width="stretch")
     else:
         st.caption("Historical meter reading records unavailable for this specific gateway.")
