@@ -1,7 +1,7 @@
 # LPDG 2026 Final Submission Checklist
 
 **Project**: LPDG Innovation Hub Selection Challenge 2026  
-**Candidate Registration ID**: `23091a3286`  
+**Candidate Registration ID**: `23091A3286`  
 **Submission Date**: 16 September 2026  
 
 ---
@@ -13,7 +13,7 @@
 - [x] **`DECISIONS.md`**: Five required project decisions, alternatives, trade-offs, limitations, and Part 2 track selection.
 - [x] **`AI-USAGE.md`**: AI usage disclosure, caught mistakes, and verification protocols.
 - [x] **`README.md`**: Comprehensive project guide, architecture diagrams, execution steps, and limitations.
-- [x] **Part 2 Work**: Track E (Machine Learning) complete with ablation, dual validation, and baseline outperformance.
+- [x] **Part 2 Work**: Track D (Data Science) & Track E (Machine Learning) complete with threshold operationalization, cohort analysis, ablation, dual validation, and baseline outperformance.
 - [ ] **6–8 Minute Screen Recording**: Script prepared in `docs/SCREEN_RECORDING_SCRIPT.md`; *Pending final video recording and upload by candidate*.
 
 ---
@@ -43,7 +43,7 @@
 - [x] **`README.md` complete**: Clear executive summary, C3 architecture diagram, one-command execution instructions.
 - [x] **`DECISIONS.md` complete**: All five decisions documented with alternatives, rationale, and trade-offs.
 - [x] **`AI-USAGE.md` complete**: Concrete errors documented (register duplication, German site mapping, hour counting).
-- [x] **Part 2 area clearly stated**: Track E (Machine Learning) explicitly documented across all files.
+- [x] **Part 2 area clearly stated**: Track D (Data Science) & Track E (Machine Learning) explicitly documented across all files.
 - [x] **Five decisions documented**: Target, Features, Model, Cooldown, Part 2 Track.
 - [x] **Alternatives documented**: At least 2 alternatives documented for each decision.
 - [x] **C3 architecture documented**: Promoted Champion Pipeline clearly detailed.

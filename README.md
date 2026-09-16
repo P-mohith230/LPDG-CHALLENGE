@@ -2,10 +2,11 @@
 > A leakage-safe machine learning system for prioritizing weekly field visits under a fixed operational budget.
 
 **Project**: LPDG Innovation Hub Selection Challenge 2026  
-**Candidate Registration ID**: `23091a3286`  
-**Selected Part 2 Specialization**: **Track E — Machine Learning**  
+**Candidate Registration ID**: `23091A3286`  
+**Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
 
-[![Part 2 Track](https://img.shields.io/badge/Part_2-Track_E:_Machine_Learning-blue?style=flat-square)](DECISIONS.md)
+[![Part 2 Track: Data Science](https://img.shields.io/badge/Part_2_Track_D-Data_Science-blue?style=flat-square)](DECISIONS.md)
+[![Part 2 Track: Machine Learning](https://img.shields.io/badge/Part_2_Track_E-Machine_Learning-blueviolet?style=flat-square)](DECISIONS.md)
 [![Predictions](https://img.shields.io/badge/Predictions-120_Rows-green?style=flat-square)](predictions.csv)
 [![Evaluation](https://img.shields.io/badge/Evaluation-8_Weeks-green?style=flat-square)](predictions.csv)
 [![Capacity](https://img.shields.io/badge/Capacity-15_Visits%2FWeek-blue?style=flat-square)](DECISIONS.md)
@@ -42,6 +43,7 @@
 | **Total Submission Selections** | Exactly **120 gateway selections** (8 weeks × 15 visits) | `predictions.csv` |
 | **On-Site Technician Visit Cost** | **€380.00** per dispatch (120 × €380 = **€45,600** fixed) | [LPDG Brief p. 3, FAQ R2 §3.6] |
 | **Unaddressed Fault Penalty** | **€600.00** per gateway-week an active fault persists | [LPDG Brief p. 3, FAQ R1 §4.1] |
+| **Part 2 Specialization** | **Track D (Data Science) & Track E (Machine Learning)** (Dual Focus) | [DECISIONS.md §5, LPDG Brief p. 4] |
 | **Production Architecture** | **Candidate C3** (32 Features, HistGradientBoosting, 2-Wk Cooldown) | Selected Champion Pipeline |
 | **Historical Proxy Benchmark Cost** | **€115,200** (vs €128,400 Baseline V1, vs €164,400 3-Sigma) | 16-Week Historical Benchmark |
 | **Automated Test Suite** | **79 / 79 passing** (70 Core + 9 Dashboard tests, 0 failures) | `tests/test_*.py` |
@@ -50,7 +52,55 @@
 
 ---
 
-## 2. The Operational Objective & Problem Formulation
+---
+
+## 2. Dual Part 2 Specialization: Track D (Data Science) & Track E (Machine Learning)
+
+To bridge mathematically rigorous predictive modeling with practical operational utility decision-making, this project implements a **comprehensive dual specialization** combining **Track D (Data Science)** and **Track E (Machine Learning)**:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                          DUAL PART 2 SPECIALIZATION ARCHITECTURE                                │
+├────────────────────────────────────────────────┬────────────────────────────────────────────────┤
+│  TRACK D: DATA SCIENCE (Operational Rigor)     │  TRACK E: MACHINE LEARNING (Algorithmic Rigor) │
+├────────────────────────────────────────────────┼────────────────────────────────────────────────┤
+│ • Mathematical formulation of visit boundary   │ • Slashed 16-week benchmark cost by €49,200   │
+│ • Asymmetric economic loss matrix (€380 vs €600)│ • 67.2% reduction in unaddressed penalties     │
+│ • Uncertainty quantification across cohorts    │ • 32 leakage-safe features (29 base + 3 self)  │
+│ • 5 Domain failure signatures (SIG_01–SIG_05)  │ • Dual adversarial validation (Temporal+Spatial│
+│ • Interactive 3D WebGL Decision-Support Center │ • Empirical rejection of uncalibrated novelty  │
+└────────────────────────────────────────────────┴────────────────────────────────────────────────┘
+```
+
+### Track D — Data Science Contributions:
+1. **Mathematical Operationalization of Dispatch Thresholds**:
+   - Translated the asymmetric penalty structure (€380 technician truck roll vs €600 compounding unaddressed fault penalty) into an explicit loss matrix and constrained optimization boundary.
+   - Proved mathematically and empirically why unconstrained probability thresholding ($\hat{p} \ge \theta$) fails in grid operations (inducing dispatch bursts during network storms and technician starvation during quiet periods).
+   - Designed an interactive **What-If Scenario Sandbox** and **Economic Threshold Sensitivity** tool in the operations platform to evaluate threshold movements: *"Move your threshold, and calculate the exact financial cost in each direction."*
+2. **Uncertainty Quantification Across Gateway Hardware Cohorts**:
+   - Stratified the 320-gateway fleet across antenna hardware architectures (`Yagi 9 dBi`, `Omni 3 dBi`, `Omni 5 dBi`, `Panel 7 dBi`), meter density tiers, and historical missingness regimes.
+   - Identified and resolved systemic confounding: high-gain directional antennas mask packet degradation under global population metrics, whereas low-traffic rural units trigger false alarms unless normalized against their individual operating baselines.
+3. **Diagnostic Domain Failure Signatures & Maintenance Playbook**:
+   - Codified 5 verifiable failure signatures (`SIG_01` Backhaul Silence, `SIG_02` Radio Downlink Fade, `SIG_03` Power Instability, `SIG_04` High CRC Corruption, `SIG_05` Stealth Degradation).
+   - Created the **Diagnostic Maintenance Action Playbook** detailing specific technician work instructions, replacement parts, and remediation protocols for field dispatchers.
+4. **Operations Manager Decision-Support Platform & Visual Analytics**:
+   - Deployed an industrial-grade Streamlit + Three.js Operations Control Center providing executive fleet matrices, 8-week multi-visit dispatch schedules, and real-time 3D telemetry pillar visualization grounded in physical telemetry without dummy approximations.
+
+### Track E — Machine Learning Contributions:
+1. **Strictly Outperforming the Reference Baseline (`baseline_3sigma.py`)**:
+   - Slashes 16-week historical proxy benchmark cost from **€164,400 to €115,200** (a **€49,200 / 29.9% total operational cost reduction**).
+   - Cuts unaddressed fault penalty expenditures from **€73,200 to €24,000** (a **67.2% reduction**), intercepting 89.25% of all severe collection deficit episodes across the fleet.
+2. **Transparent Feature Engineering & Physical Invariant Grounding**:
+   - Developed 32 leakage-safe features: 29 physical baseline features (bounded peak offline hours, distinct hourly conservation law, power cycle bursts, cellular RSSI) and 3 asset-specific self-baseline z-scores (28-day history with a 72-hour cold-start guard).
+   - Audited feature redundancy, eliminating saturated CRC error registers ($R = 1.0000$) to preserve estimator stability.
+3. **Dual Adversarial Validation**:
+   - **Temporal Walk-Forward Validation**: Evaluated forward across quarterly distribution shifts (`2025-Q4` vs `2026-Q1`) achieving PR-AUC **0.8465**.
+   - **Spatial Gateway-Disjoint 5-Fold Validation**: Evaluated on completely unseen hardware (0% device overlap) achieving PR-AUC **0.7658** with fold standard deviation reduced by 47% down to €1,489.
+4. **Empirical Innovation Ledger & Architecture Selection**:
+   - Evaluated 5 modular candidate intelligence technologies across 11 combination architectures (C0–C10).
+   - Promoted Candidate C3 as the Champion Pipeline and formally rejected unsupervised novelty detection from primary dispatch based on telemetry missingness forensics.
+
+## 3. The Operational Objective & Problem Formulation
 
 In utility grid operations, predictive maintenance is not an unconstrained binary classification task. It is a **constrained resource allocation problem under asymmetric financial risk**.
 
@@ -77,7 +127,7 @@ $$\text{subject to} \quad \sum_{g \in G} x(g,k) = 15 \quad \forall k \in \{1, \d
 
 ---
 
-## 3. Fault-Episode Economics & Cooldown Dynamics
+## 4. Fault-Episode Economics & Cooldown Dynamics
 
 The challenge evaluates multi-week fault episodes under counterfactual episode accounting:
 
@@ -105,7 +155,7 @@ Week k+3:     If Dispatched Again (x=1)         ──►  €380 Wasted Visit (
 
 ---
 
-## 4. Visual Benchmark Comparison
+## 5. Visual Benchmark Comparison
 
 All candidate strategies were evaluated on the exact same **16-week historical benchmark window** (`2025-10-06` to `2026-01-19`, 4,404 gateway-weeks evaluated, 372 true severe deficit fault-weeks, exactly 240 technician dispatches per active strategy):
 
@@ -147,7 +197,7 @@ Candidate C3 (Promoted Champion Pipeline)  ████████████�
 
 ---
 
-## 5. Production ML Pipeline Architecture (Candidate C3)
+## 6. Production ML Pipeline Architecture (Candidate C3)
 
 The production pipeline implements **Candidate C3**, combining 29 audited baseline features with 3 gateway-specific self-history baseline features, pure calibrated risk probabilities, and a 2-week post-visit cooldown:
 
@@ -218,7 +268,7 @@ The production pipeline implements **Candidate C3**, combining 29 audited baseli
 
 ---
 
-## 6. What the Model Learns From: Mathematical Formulations
+## 7. What the Model Learns From: Mathematical Formulations
 
 Every engineered feature is grounded in physical domain invariants and audited for temporal leakage safety:
 
@@ -257,7 +307,7 @@ If a gateway has $<72\text{h}$ of operating history, it seamlessly falls back to
 
 ---
 
-## 7. Why Gateway Self-Baselines?
+## 8. Why Gateway Self-Baselines?
 
 <p align="center">
   <img src="docs/images/gateway_self_baselines.png" alt="Gateway Self-Baselines vs Global Population Baseline" width="950"/>
@@ -287,7 +337,7 @@ In empirical testing, adding gateway self-baselines was the single most impactfu
 
 ---
 
-## 8. Evaluated Innovation Combinations (C0–C10)
+## 9. Evaluated Innovation Combinations (C0–C10)
 
 During the Innovation Phase, 5 modular candidate technologies were tested across 11 combination architectures (C0 through C10) under the identical 16-week benchmark protocol:
 
@@ -316,7 +366,7 @@ During the Innovation Phase, 5 modular candidate technologies were tested across
 
 ---
 
-## 9. From Telemetry to Decision: Why Constrained Ranking?
+## 10. From Telemetry to Decision: Why Constrained Ranking?
 
 In standard machine learning, binary classification models output a probability $\hat{p}$, and instances are selected using a threshold: $\hat{p} \ge \theta$.
 
@@ -363,7 +413,7 @@ Deterministic tie-breaking sorts ascending by `gateway_id`, guaranteeing identic
 
 ---
 
-## 10. Validation Philosophy & Zero-Lookahead Firewall
+## 11. Validation Philosophy & Zero-Lookahead Firewall
 
 To guarantee scientific validity, the evaluation methodology enforces strict temporal and spatial firewalls:
 
@@ -385,7 +435,7 @@ To guarantee scientific validity, the evaluation methodology enforces strict tem
 
 ---
 
-## 11. Key Formulations Quick Reference
+## 12. Key Formulations Quick Reference
 
 | Concept | Mathematical / Logical Formulation | Code Reference |
 | :--- | :--- | :--- |
@@ -401,7 +451,7 @@ To guarantee scientific validity, the evaluation methodology enforces strict tem
 
 ---
 
-## 12. Engineering Reproducibility & Verification
+## 13. Engineering Reproducibility & Verification
 
 The repository is built for complete, standalone offline reproducibility:
 
@@ -448,7 +498,7 @@ Zero failures, zero errors.
 
 ---
 
-## 13. Documented Limitations ("What It Cannot Do")
+## 14. Documented Limitations ("What It Cannot Do")
 
 To maintain scientific integrity, the known operational limitations of the pipeline are explicitly documented:
 
@@ -459,7 +509,7 @@ To maintain scientific integrity, the known operational limitations of the pipel
 
 ---
 
-## 14. Interactive 3D Streamlit Decision-Support Platform
+## 15. Interactive 3D Streamlit Decision-Support Platform
 
 To extend the completed, validated competition pipeline into an operational demonstration tool, a separate interactive web application is provided in `app/`. It serves as an industrial IoT operations control center for engineering and field dispatchers.
 
@@ -497,7 +547,7 @@ python -m streamlit run app/app.py
 
 ---
 
-## 15. Project Structure
+## 16. Project Structure
 
 ```text
 .
@@ -543,14 +593,14 @@ python -m streamlit run app/app.py
 
 ---
 
-## 16. Screen Recording
+## 17. Screen Recording
 
 - **Presentation Script**: Complete 7-minute cue sheet with timestamps and spoken text is documented in [`docs/SCREEN_RECORDING_SCRIPT.md`](docs/SCREEN_RECORDING_SCRIPT.md).
 - **Recording Status**: `Screen recording: Pending final upload.` *(To be recorded and linked prior to the final submission deadline).*
 
 ---
 
-## 17. AI Usage Disclosure & Governance
+## 18. AI Usage Disclosure & Governance
 
 AI assistance was utilized as an interactive pair-programming and statistical scaffolding collaborator. All architectural decisions, leakage firewalls, and feature definitions were verified by human review. Complete disclosure and documentation of three concrete AI errors caught and corrected are documented in [`AI-USAGE.md`](AI-USAGE.md).
 

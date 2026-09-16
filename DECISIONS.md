@@ -1,8 +1,8 @@
 # LPDG 2026 — Project Decisions
 
 **Project**: LPDG Innovation Hub Selection Challenge 2026  
-**Candidate Registration ID**: `23091a3286`  
-**Selected Part 2 Specialization**: **Track E — Machine Learning**  
+**Candidate Registration ID**: `23091A3286`  
+**Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
 
 ---
 
@@ -86,24 +86,28 @@ If an asset suffers a completely independent secondary failure within 14 days of
 ## Decision 5 — Part 2 Specialization Area
 
 ### Choice:
-**Track E — Machine Learning**.
+**Track D — Data Science & Track E — Machine Learning** (Integrated Dual Specialization).
 
 ### Alternatives Considered:
-- **Track A (Data Engineering)**: Data processing pipelines.
-- **Track B (Software Development)**: Web API service and endpoint scaffolding.
-- **Track C (DevOps)**: Containerization and CI/CD pipelines.
-- **Track D (Data Science)**: Decision threshold analysis and stakeholder dashboards.
-- **Track F (MLOps)**: Model registry, data drift pipelines, and rollback mechanisms.
+- **Track A (Data Engineering)**: Batch/stream ingestion and partition management pipelines.
+- **Track B (Software Development)**: Standalone microservice scaffolding and REST endpoints.
+- **Track C (DevOps)**: Container orchestration, Docker compose setups, and cloud CI/CD runners.
+- **Track F (MLOps)**: Centralized model registries, shadow deployments, and dynamic rollbacks.
 
 ### Why:
-The defining technical objective of the challenge is minimizing total utility operational cost by outperforming the unsupervised reference standard (`baseline_3sigma.py`). Track E directly demonstrates:
-1. **Defeating the Reference Baseline**: Slashes 16-week operational cost from €164,400 to **€115,200** (a **€49,200 / 29.9% cost reduction**) and cuts unaddressed fault penalties from €73,200 to **€24,000** (a **67.2% reduction**).
-2. **Feature Ablation & Redundancy Transparency**: Rigorous ablation proving the value of silence, offline duration, and gateway self-baselines, while pruning saturated CRC error metrics ($R = 1.0000$).
-3. **Dual Adversarial Validation**: Testing generalizability across quarterly distribution drift (Temporal Walk-Forward PR-AUC 0.8465) and unseen hardware (Gateway-Disjoint PR-AUC 0.7658).
-4. **Empirical Innovation Evaluation**: Evaluating 5 modular intelligence innovations and formally rejecting unsupervised novelty based on telemetry missingness forensics.
+Predictive grid maintenance requires both algorithmic outperformance and operational decision clarity:
+1. **Track E (Machine Learning Algorithmic Rigor)**:
+   - Slashes 16-week historical proxy benchmark cost from €164,400 to **€115,200** (a **€49,200 / 29.9% cost reduction**) and cuts unaddressed fault penalties from €73,200 to **€24,000** (a **67.2% reduction**).
+   - Audited 32 features (29 baseline + 3 gateway self-baselines) with rigorous ablation proving the necessity of self-history z-scores, while pruning saturated CRC error metrics ($R = 1.0000$).
+   - Dual adversarial validation: quarterly temporal drift (PR-AUC 0.8465) and device-disjoint spatial validation on unseen hardware (PR-AUC 0.7658).
+2. **Track D (Data Science Operational Rigor)**:
+   - **Mathematical Operationalization of Dispatch Thresholds**: Modeled the €380 visit cost vs €600 penalty trade-off, showing why fixed probability thresholds fail under storm conditions and implementing an interactive What-If sensitivity tool (*"Move your threshold, and calculate the exact financial cost in each direction"*).
+   - **Hardware Cohort Uncertainty Quantification**: Stratified risk across antenna gain types (`Yagi 9 dBi`, `Omni 3 dBi`, `Omni 5 dBi`, `Panel 7 dBi`), meter density tiers, and missingness regimes.
+   - **Diagnostic Failure Signatures & Maintenance Playbook**: Formalized 5 domain failure signatures (`SIG_01`–`SIG_05`) and built a concrete technician remediation action playbook.
+   - **Interactive Operations Control Center**: Delivered an industrial-grade Streamlit + Three.js decision-support platform with real-time 3D telemetry pillars, Executive Fleet Readiness Matrix, and 8-week multi-visit schedule timelines.
 
 ### Trade-off:
-Prioritizing rigorous predictive modeling meant deliberately electing not to build an external REST API microservice (Track B) or multi-node container cluster (Track C).
+Delivering an integrated Data Science + Machine Learning platform meant focusing engineering on decision modeling and interactive operational analytics rather than external web service microservices (Track B) or container clusters (Track C).
 
 ---
 
