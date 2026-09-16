@@ -1,7 +1,8 @@
 # LPDG 2026 — Predictive Gateway Visit Prioritization
 > A leakage-safe machine learning system for prioritizing weekly field visits under a fixed operational budget.
 
-**Project**: LPDG Innovation Hub Selection Challenge 2026  
+**Project**: LPDG Innovation Hub Selection Challenge 2026 
+**Candidate Name**: <b> PAGADALA MOHITH <b>
 **Candidate Registration ID**: `23091A3286`  
 **Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
 
