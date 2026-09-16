@@ -99,11 +99,19 @@ Week k+3:     If Dispatched Again (x=1)         ──►  €380 Wasted Visit (
 - **The 2-Week Cooldown Policy**: To prevent this pathology, our decision policy suppresses any gateway visited within the prior 2 weeks ($k-1$ and $k-2$), eliminating redundant dispatches and maximizing fleet coverage.
 - **Static Telemetry vs Counterfactual Evaluation**: The raw telemetry in the dataset is historical and does not counterfactually change after a visit. The economic simulator models episode interruption counterfactually in offline evaluation.
 
+<p align="center">
+  <img src="docs/images/fault_episode_economics.png" alt="Fault Episode Economics & Cooldown Dynamics" width="880"/>
+</p>
+
 ---
 
 ## 4. Visual Benchmark Comparison
 
 All candidate strategies were evaluated on the exact same **16-week historical benchmark window** (`2025-10-06` to `2026-01-19`, 4,404 gateway-weeks evaluated, 372 true severe deficit fault-weeks, exactly 240 technician dispatches per active strategy):
+
+<p align="center">
+  <img src="docs/images/benchmark_cost_comparison.png" alt="Historical Proxy Benchmark Cost Reconciliation" width="880"/>
+</p>
 
 ```text
 Historical Proxy-Target Benchmark Cost (€)
@@ -142,6 +150,10 @@ Candidate C3 (Promoted Champion Pipeline)  ████████████�
 ## 5. Production ML Pipeline Architecture (Candidate C3)
 
 The production pipeline implements **Candidate C3**, combining 29 audited baseline features with 3 gateway-specific self-history baseline features, pure calibrated risk probabilities, and a 2-week post-visit cooldown:
+
+<p align="center">
+  <img src="docs/images/c3_architecture_flow.png" alt="C3 Production ML Pipeline Architecture Flow" width="950"/>
+</p>
 
 ```text
 ═══════════════════════════════════════════════════════════════════════════════════════════
@@ -225,7 +237,7 @@ $$\text{OfflineHours}_{g, k} = \min\left(168.0, \; \frac{\max_{t < T}(\text{Offl
 ### 3. Physical Hourly Conservation Law
 Because high-traffic gateways transmit multiple packet bursts per clock hour, counting raw rows inflated observed time beyond 168 hours. We enforce distinct hourly floor bucketing:
 
-$$\text{ObservedHours}_{g, k} = \min\left(168.0, \; \left|\big\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \big\}\right|\right)$$
+$$\text{ObservedHours}_{g, k} = \min\left(168.0, \; \left| \left\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \right\} \right|\right)$$
 $$\text{MissingHours}_{g, k} = 168.0 - \text{ObservedHours}_{g, k} \implies \text{ObservedHours}_{g, k} + \text{MissingHours}_{g, k} \equiv 168.0$$
 
 *(In code: `feat_observed_hours + feat_missing_hours == 168.0` strictly enforced)*.
@@ -246,6 +258,10 @@ If a gateway has $<72\text{h}$ of operating history, it seamlessly falls back to
 ---
 
 ## 7. Why Gateway Self-Baselines?
+
+<p align="center">
+  <img src="docs/images/gateway_self_baselines.png" alt="Gateway Self-Baselines vs Global Population Baseline" width="950"/>
+</p>
 
 ```text
 GLOBAL POPULATION BASELINE (Flawed by Asset Heterogeneity)
@@ -274,6 +290,10 @@ In empirical testing, adding gateway self-baselines was the single most impactfu
 ## 8. Evaluated Innovation Combinations (C0–C10)
 
 During the Innovation Phase, 5 modular candidate technologies were tested across 11 combination architectures (C0 through C10) under the identical 16-week benchmark protocol:
+
+<p align="center">
+  <img src="docs/images/innovation_configurations.png" alt="Innovation Phase 11 Architectures Pareto Frontier" width="880"/>
+</p>
 
 | Architecture ID | Configuration Description | Features | Benchmark Cost (€) | Penalty Cost (€) | Recall | Unaddressed Faults | Unseen Gateway PR-AUC | Status in Submission |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
