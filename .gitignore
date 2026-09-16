@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Challenge Raw Data (Mandatory Institutional Privacy Protection)
+/data/
+OneDrive_2026-08-31/
+*.parquet
+*.xlsx
+*.xls
+
+# Binary Documents & Resumes (Excludes candidate CV and challenge PDF)
+*.pdf
+
+# Temporary Scratch Files & Test Runs
+scratch/
+*.log
+
+# IDE & OS Artifacts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
