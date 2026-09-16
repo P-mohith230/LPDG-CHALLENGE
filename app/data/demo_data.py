@@ -13,19 +13,29 @@ from app.utils.config import SCORED_WEEKS
 
 DEMO_DISCLOSURE = "DEMO MODE: Synthetic Data — Not Official Challenge Data"
 
-# Synthetic gateway catalog representing a realistic fleet topology (60 synthetic assets)
-SYNTHETIC_GATEWAYS = [
-    f"GW_SYNTH_{i:04X}" for i in range(1, 61)
-]
-
 SYNTHETIC_ANTENNAS = ["Omni 3 dBi", "Omni 5 dBi", "Panel 7 dBi", "Yagi 9 dBi"]
 SYNTHETIC_SITES = ["Rooftop", "Pole", "Indoor", "Outdoor"]
+
+
+def _get_demo_gateway_ids() -> list[str]:
+    """Retrieve gateway IDs aligning with predictions.csv so dispatches render seamlessly."""
+    try:
+        from app.services.prediction_service import PREDICTIONS_PATH
+        if PREDICTIONS_PATH.is_file():
+            df = pd.read_csv(PREDICTIONS_PATH)
+            real_ids = list(df["gateway_id"].unique())
+            synth_ids = [f"GW_SYNTH_{i:04X}" for i in range(1, 45)]
+            return real_ids + synth_ids
+    except Exception:
+        pass
+    return [f"GW_SYNTH_{i:04X}" for i in range(1, 61)]
 
 
 def generate_synthetic_catalog() -> pd.DataFrame:
     """Generate a sanitized synthetic gateway catalog for demo mode only."""
     records = []
-    for idx, gw_id in enumerate(SYNTHETIC_GATEWAYS):
+    gateways = _get_demo_gateway_ids()
+    for idx, gw_id in enumerate(gateways):
         records.append({
             "gateway_id": gw_id,
             "antenna_type": SYNTHETIC_ANTENNAS[idx % len(SYNTHETIC_ANTENNAS)],

@@ -19,6 +19,10 @@ from src.utils.config import get_data_dir
 logger = logging.getLogger(__name__)
 
 
+CATALOG_PATH = Path(__file__).resolve().parent / "gateway_catalog.json"
+TELEMETRY_HISTORY_PATH = Path(__file__).resolve().parent / "telemetry_history.csv.gz"
+
+
 def is_local_challenge_data_available() -> bool:
     """Check if the raw challenge data directory is accessible locally."""
     try:
@@ -39,6 +43,15 @@ def load_gateway_catalog(demo_mode: bool = False) -> tuple[pd.DataFrame, bool]:
     if demo_mode:
         return generate_synthetic_catalog(), True
 
+    # Priority 1: Self-contained packaged fleet catalog (332 gateways, cloud resilient)
+    if CATALOG_PATH.is_file():
+        try:
+            df = pd.read_json(CATALOG_PATH)
+            return df, False
+        except Exception as e:
+            logger.warning("Failed to load pre-packaged gateway catalog: %s", e)
+
+    # Priority 2: Raw local challenge data if mounted
     if is_local_challenge_data_available():
         try:
             from src.data.loader import load_gateway_master
@@ -47,8 +60,7 @@ def load_gateway_catalog(demo_mode: bool = False) -> tuple[pd.DataFrame, bool]:
         except Exception as e:
             logger.warning("Failed to load local gateway master: %s", e)
 
-    # In cloud environments where the raw 104MB challenge data is not committed to git,
-    # gracefully fallback to demo catalog so the 3D fleet view and explorer remain fully interactive
+    # Priority 3: Fallback synthetic demo catalog
     return generate_synthetic_catalog(), True
 
 
@@ -61,6 +73,21 @@ def load_gateway_telemetry_history(gateway_id: str, demo_mode: bool = False) -> 
     if demo_mode:
         return generate_synthetic_telemetry_history(gateway_id), True
 
+    # Priority 1: Self-contained packaged telemetry history (26-week trends)
+    if TELEMETRY_HISTORY_PATH.is_file():
+        try:
+            mrs = pd.read_csv(TELEMETRY_HISTORY_PATH)
+            gw_mrs = mrs[mrs["gateway_id"] == gateway_id].copy()
+            if not gw_mrs.empty:
+                gw_mrs = gw_mrs.sort_values("week_start")
+                if "meters_expected" in gw_mrs.columns and "meters_read" in gw_mrs.columns:
+                    expected = gw_mrs["meters_expected"].replace(0, 1)
+                    gw_mrs["read_ratio"] = (gw_mrs["meters_read"] / expected).clip(0.0, 1.0)
+                return gw_mrs, False
+        except Exception as e:
+            logger.warning("Failed to load pre-packaged telemetry history for %s: %s", gateway_id, e)
+
+    # Priority 2: Raw local challenge data if mounted
     if is_local_challenge_data_available():
         try:
             from src.data.loader import load_meter_read_success
