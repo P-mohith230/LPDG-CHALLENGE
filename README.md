@@ -4,6 +4,7 @@
 **Project**: LPDG Innovation Hub Selection Challenge 2026 
 
 **Candidate Name**: <b> PAGADALA MOHITH <b>
+
 **Candidate Registration ID**: `23091A3286`  
 **Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
 
