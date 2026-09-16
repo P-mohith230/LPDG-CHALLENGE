@@ -129,7 +129,7 @@ Candidate C3 (Promoted Champion Pipeline)  ████████████�
 | Metric | 3-Sigma Baseline (`baseline_3sigma.py`) | Frozen Baseline V1 (Stage 9) | Candidate C10 (Integrated) | Candidate C3 (Champion) |
 | :--- | :---: | :---: | :---: | :---: |
 | **Total Operational Cost** | **€164,400** | **€128,400** | **€117,600** | **€115,200** |
-| Fixed Visit Cost ($240 \times €380$) | €91,200 | €91,200 | €91,200 | €91,200 |
+| Fixed Visit Cost (240 × €380) | €91,200 | €91,200 | €91,200 | €91,200 |
 | Unaddressed Penalty Cost | €73,200 | €37,200 | €26,400 | **€24,000** |
 | Unaddressed Fault-Weeks | 122 | 62 | 44 | **40** |
 | Fleet Recall on Faults | 67.20% | 83.33% | 88.17% | **89.25%** |
