@@ -1,0 +1,4 @@
+# Optional dependencies for running the interactive Streamlit Decision-Support Platform
+# Note: These are NOT required to run the competition runner (python run.py).
+streamlit>=1.36.0
+plotly>=5.15.0

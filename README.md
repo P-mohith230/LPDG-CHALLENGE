@@ -9,7 +9,7 @@
 [![Predictions](https://img.shields.io/badge/Predictions-120_Rows-green?style=flat-square)](predictions.csv)
 [![Evaluation](https://img.shields.io/badge/Evaluation-8_Weeks-green?style=flat-square)](predictions.csv)
 [![Capacity](https://img.shields.io/badge/Capacity-15_Visits%2FWeek-blue?style=flat-square)](DECISIONS.md)
-[![Unit Tests](https://img.shields.io/badge/Unit_Tests-70%2F70_Passing-brightgreen?style=flat-square)](tests/)
+[![Unit Tests](https://img.shields.io/badge/Unit_Tests-79%2F79_Passing-brightgreen?style=flat-square)](tests/)
 [![Validator](https://img.shields.io/badge/Official_Validator-PASS_(Code_0)-brightgreen?style=flat-square)](validate_submission.py)
 [![Champion Pipeline](https://img.shields.io/badge/Champion_Pipeline-Candidate_C3-orange?style=flat-square)](docs/innovation/FINAL_INNOVATION_AUDIT.md)
 [![Reproducibility](https://img.shields.io/badge/Reproducibility-Deterministic_SHA256-blueviolet?style=flat-square)](docs/07_compliance/REPRODUCIBILITY.md)
@@ -44,7 +44,7 @@
 | **Unaddressed Fault Penalty** | **€600.00** per gateway-week an active fault persists | [LPDG Brief p. 3, FAQ R1 §4.1] |
 | **Production Architecture** | **Candidate C3** (32 Features, HistGradientBoosting, 2-Wk Cooldown) | Selected Champion Pipeline |
 | **Historical Proxy Benchmark Cost** | **€115,200** (vs €128,400 Baseline V1, vs €164,400 3-Sigma) | 16-Week Historical Benchmark |
-| **Automated Test Suite** | **70 / 70 passing** (0 failures, 0 errors in 41.4s) | `tests/test_*.py` |
+| **Automated Test Suite** | **79 / 79 passing** (70 Core + 9 Dashboard tests, 0 failures) | `tests/test_*.py` |
 | **Official Grader Validator** | **Exit Code 0** (`predictions.csv: OK`) | `validate_submission.py` |
 | **Prediction Artifact SHA256** | `f27120799bd55bde34508299c411f763d54e7766e266ac54c0619307a6d54608` | Verified deterministic |
 
@@ -459,7 +459,45 @@ To maintain scientific integrity, the known operational limitations of the pipel
 
 ---
 
-## 14. Project Structure
+## 14. Interactive 3D Streamlit Decision-Support Platform
+
+To extend the completed, validated competition pipeline into an operational demonstration tool, a separate interactive web application is provided in `app/`. It serves as an industrial IoT operations control center for engineering and field dispatchers.
+
+> [!IMPORTANT]
+> **Strict Pipeline & Submission Decoupling**:
+> - The competition runner (`python run.py`) and grader validator (`python validate_submission.py predictions.csv`) remain completely independent and executable without Streamlit or the dashboard.
+> - The dashboard is strictly a **read-only consumer interface**; it does NOT retrain models, alter feature sets, or modify `predictions.csv` (SHA256: `f2712079...` remains byte-identical).
+> - **Dual-Horizon Separation**: The application visually separates the **Official Challenge Horizon** (8 scored weeks, 120 visits, €45,600 fixed visit component, hidden ground truth) from the **Historical Development Benchmark** (16 evaluation weeks, 240 visits, €91,200 fixed visit component, proxy target evaluation).
+
+### Launching the Dashboard Locally
+
+```powershell
+# 1. Install optional dashboard visualization dependencies
+pip install -r requirements-dashboard.txt
+
+# 2. Launch the Streamlit application
+python -m streamlit run app/app.py
+```
+
+### Seven Operational Navigation Views
+
+| Page View | Key Functions & Visualizations | Technical Grounding |
+| :--- | :--- | :--- |
+| **1. Overview & Control Center** | Active week selector, Executive KPI cards, Top 15 Priority Dispatches, Quick Gateway Inspector, and embedded Three.js 3D WebGL scene. | Primary visual risk encoding: **Elevation (Y-axis)**. Color is secondary (Blue <0.30, Amber 0.30–0.70, Red ≥0.70). Purple orbital reticles for Top 15 priority dispatches. Abstract topological layout (`Operational Network / Fleet View — Abstract topology, not geographic coordinates`). |
+| **2. Gateway Explorer** | Fleet-wide search and filtering by antenna type (`Yagi 9 dBi`, `Omni 3 dBi`, etc.) and priority status; deep dive inspector with 2D historical collection read-ratio curves. | Grounded in `gateway_master.csv` and historical collection records; displays verified metrics with zero dummy approximations. |
+| **3. Visit Prioritization** | Official 15 prioritized dispatches for the week, 2-week cooldown enforcement tracking, 8-week multi-visit schedule timeline, and isolated What-If sandbox. | What-If sandbox is clearly labeled `EXPLORATION ONLY — NOT OFFICIAL SUBMISSION` with zero side effects on `predictions.csv`. |
+| **4. Model Intelligence** | End-to-end pipeline flow diagram, breakdown of the **32 C3 features** (29 baseline + 3 gateway self-baselines), physical domain invariants, and native permutation importance. | Permutation importance evaluated on the 5-fold gateway-disjoint cross-validation split (no external SHAP dependency); 5 grounded failure signatures from `SIGNATURE_REGISTRY`. |
+| **5. Economic Analysis** | Visual firewall between Official Challenge Constraints (€380/visit, 15 visits/wk, €45.6k budget) and the 16-Week Historical Development Benchmark (€115.2k C3 vs €128.4k C0 vs €164.4k 3-Sigma). | Stacked cost breakdown chart and episode interruption repeat-visit economics (-67.2% unaddressed fault penalty reduction). |
+| **6. Innovation Lab** | Empirical Configuration Trade-off Analysis across all 11 candidate configurations (C0 through C10) using exact verified results from `scratch/innovation_experiment_results.json`. | 2D Trade-off scatter plot: 16-Week Benchmark Total Cost (€) vs Spatial CV PR-AUC; C3 marked `Selected Production Architecture` and C10 marked `Documented Alternative`. |
+| **7. System Architecture** | Layered architectural boundary diagram illustrating the decoupling between the Streamlit software layer, precomputed artifacts, and the frozen C3 pipeline core. | Proves independent runner execution, isolated Three.js component boundary, and zero-infrastructure design (no external databases, microservices, Docker, or LLMs). |
+
+### Documentation References
+- **Architecture Documentation**: [`docs/DASHBOARD_ARCHITECTURE.md`](docs/DASHBOARD_ARCHITECTURE.md)
+- **Operational Walkthrough Guide**: [`docs/DASHBOARD_WALKTHROUGH.md`](docs/DASHBOARD_WALKTHROUGH.md)
+
+---
+
+## 15. Project Structure
 
 ```text
 .
@@ -467,11 +505,21 @@ To maintain scientific integrity, the known operational limitations of the pipel
 ├── run.sh                          # Unix shell wrapper for one-command execution
 ├── validate_submission.py          # Official LPDG submission grader validator script
 ├── requirements.txt                # Minimal production dependencies (numpy, pandas, scikit-learn, pyarrow)
+├── requirements-dashboard.txt      # Optional visualization dependencies (streamlit, plotly)
 ├── predictions.csv                 # Official 120-row competition submission artifact
 ├── DECISIONS.md                    # Five official project decisions, alternatives, and trade-offs
 ├── AI-USAGE.md                     # AI disclosure, caught errors, and human governance log
 ├── .gitignore                      # Strict institutional privacy firewall excluding raw challenge data
+├── app/                            # Interactive Streamlit Decision-Support Platform
+│   ├── app.py                      # Streamlit entry point & native st.navigation router
+│   ├── pages/                      # 7 operational pages (Overview, Explorer, Dispatch, Model, etc.)
+│   ├── components/                 # Three.js 3D WebGL scene, Plotly 2D charts, KPI cards
+│   ├── services/                   # PredictionService, GatewayService, EconomicService, ModelService
+│   ├── data/                       # Data adapters and isolated synthetic demo data generator
+│   └── utils/                      # App config, theme tokens, formatting, session state
 ├── docs/
+│   ├── DASHBOARD_ARCHITECTURE.md   # Complete system architecture and Three.js integration spec
+│   ├── DASHBOARD_WALKTHROUGH.md    # Operational user manual for all 7 dashboard views
 │   ├── SCREEN_RECORDING_SCRIPT.md  # Official 7-minute visual & spoken cue sheet
 │   ├── FINAL_SUBMISSION_CHECKLIST.md# Comprehensive submission readiness audit checklist
 │   ├── 01_context/                 # Authoritative challenge briefs and FAQs
@@ -490,18 +538,19 @@ To maintain scientific integrity, the known operational limitations of the pipel
 │   ├── evaluation/                 # Economic cost simulator, temporal and spatial splitters
 │   ├── prediction/                 # Production inference pipeline and diagnostic reason builder
 │   └── utils/                      # Dynamic paths, configuration, constants, and logging
-└── tests/                          # 70 automated unit tests (Stages 1–9 and Innovations)
+└── tests/                          # 79 automated unit tests (70 Core + 9 Dashboard tests)
 ```
 
 ---
 
-## 15. Screen Recording
+## 16. Screen Recording
 
 - **Presentation Script**: Complete 7-minute cue sheet with timestamps and spoken text is documented in [`docs/SCREEN_RECORDING_SCRIPT.md`](docs/SCREEN_RECORDING_SCRIPT.md).
 - **Recording Status**: `Screen recording: Pending final upload.` *(To be recorded and linked prior to the final submission deadline).*
 
 ---
 
-## 16. AI Usage Disclosure & Governance
+## 17. AI Usage Disclosure & Governance
 
 AI assistance was utilized as an interactive pair-programming and statistical scaffolding collaborator. All architectural decisions, leakage firewalls, and feature definitions were verified by human review. Complete disclosure and documentation of three concrete AI errors caught and corrected are documented in [`AI-USAGE.md`](AI-USAGE.md).
+
