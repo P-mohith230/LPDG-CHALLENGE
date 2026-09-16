@@ -1,174 +1,483 @@
-# LPDG Innovation Hub Selection Challenge 2026
-**Autonomous Gateway Failure Prediction & Technician Dispatch Optimization**  
+# LPDG 2026 — Predictive Gateway Visit Prioritization
+> A leakage-safe machine learning system for prioritizing weekly field visits under a fixed operational budget.
+
+**Project**: LPDG Innovation Hub Selection Challenge 2026  
 **Candidate Registration ID**: `23091a3286`  
-**Selected Part 2 Track**: **Track E — Machine Learning**  
+**Selected Part 2 Specialization**: **Track E — Machine Learning**  
+
+[![Part 2 Track](https://img.shields.io/badge/Part_2-Track_E:_Machine_Learning-blue?style=flat-square)](DECISIONS.md)
+[![Predictions](https://img.shields.io/badge/Predictions-120_Rows-green?style=flat-square)](predictions.csv)
+[![Evaluation](https://img.shields.io/badge/Evaluation-8_Weeks-green?style=flat-square)](predictions.csv)
+[![Capacity](https://img.shields.io/badge/Capacity-15_Visits%2FWeek-blue?style=flat-square)](DECISIONS.md)
+[![Unit Tests](https://img.shields.io/badge/Unit_Tests-70%2F70_Passing-brightgreen?style=flat-square)](tests/)
+[![Validator](https://img.shields.io/badge/Official_Validator-PASS_(Code_0)-brightgreen?style=flat-square)](validate_submission.py)
+[![Champion Pipeline](https://img.shields.io/badge/Champion_Pipeline-Candidate_C3-orange?style=flat-square)](docs/innovation/FINAL_INNOVATION_AUDIT.md)
+[![Reproducibility](https://img.shields.io/badge/Reproducibility-Deterministic_SHA256-blueviolet?style=flat-square)](docs/07_compliance/REPRODUCIBILITY.md)
 
 ---
 
-## 1. Executive Summary & Problem Formulation
-
-The **LPDG Innovation Hub Selection Challenge 2026** tasks data science teams with optimizing weekly on-site technician dispatches across a fleet of 320 cellular smart-meter telemetry gateways. 
-
-- **Operational Mission**: Select exactly 15 gateways per week across 8 scored weeks (February 2, 2026 – March 23, 2026), totaling 120 dispatches.
-- **Economic Objective**: Minimize total utility operational cost under an asymmetric penalty structure:
-  $$\text{Total Cost} = \text{Visit Costs (€380 per dispatch)} + \text{Unaddressed Fault Penalties (€600 per gateway-week)}$$
-- **Fixed Component**: Every valid 120-visit submission incurs a fixed dispatch cost of $120 \times €380 = €45,600$.
-- **Variable Optimization Goal**: Accurately intercept and halt active multi-week collection deficit episodes before unaddressed €600 penalties compound.
-- **Historical Proxy-Target Economic Benchmarks** *(evaluated on historical 16-week proxy targets, not official hidden-ground-truth scores or guaranteed savings)*:
-  - **Official 3-Sigma Baseline (`baseline_3sigma.py`)**: **€164,400** (122 unaddressed faults, 67.20% recall).
-  - **Frozen Baseline V1 (Stage 9)**: **€128,400** (62 unaddressed faults, 83.33% recall).
-  - **Promoted Champion Pipeline (Candidate C3)**: **€115,200** (40 unaddressed faults, 89.25% recall).
-  - **Benchmark Impact**: Slashes 16-week proxy operational cost by **€49,200 (-29.93%)** vs the 3-Sigma baseline, cutting unaddressed proxy penalty losses by **67.2%**.
-
----
-
-## 2. Part 2 Specialization: Track E — Machine Learning
-
-We formally selected **Track E (Machine Learning)** because the core challenge problem is outperforming the unsupervised reference standard under asymmetric financial risk. Our solution demonstrates deep machine learning rigor:
-
-1. **Defeating the Reference Benchmark**: Reduces 16-week operational cost by €49,200 vs `baseline_3sigma.py` with 89.25% recall on severe collection deficits.
-2. **Feature Ablation & Redundancy Analysis**: Rigorous empirical proof that telemetry silence, offline duration, and gateway self-baselines provide orthogonal predictive signal, while pruning saturated CRC error metrics ($R = 1.0000$).
-3. **Dual Adversarial Validation**:
-   - **Temporal Walk-Forward CV (Quarterly Drift)**: Demonstrates stability across seasonal shifts with PR-AUC of **0.8465** and total out-of-time cost of **€132,300** (fold std €3,608).
-   - **Spatial Gateway-Disjoint CV (Unseen Gateways)**: Evaluates generalization across 5 folds with 0% device overlap, achieving PR-AUC of **0.7658** and the lowest fold variance (€1,489) in the fleet.
-4. **Empirical Innovation Testing**: Formally evaluated 5 modular intelligence innovations, adopting high-signal components and rejecting unsupervised novelty based on telemetry missingness forensics.
-
----
-
-## 3. Champion Architecture (Candidate C3)
-
-The production pipeline implements Candidate C3, combining 29 audited baseline features with 3 gateway-specific self-history baseline features, pure calibrated risk probabilities, and a 2-week post-visit cooldown:
+### Executive Framing: The Core Problem & Result
 
 ```text
-RAW TELEMETRY + GATEWAY MASTER METADATA
-                  │
-                  ▼
-DATA QUALITY & LIFECYCLE FIREWALL
-(Excludes 12 future mid-2026 installs & 12 decommissioned units; enforces t < Monday 00:00:00 UTC)
-                  │
-                  ▼
-LEAKAGE-SAFE FEATURE MATRIX (32 Modeling Features)
-├── 29 Audited Baseline Features (Availability, Stability, Radio, Static Context)
-└── 3 Gateway-Specific Historical Baseline Features (28d History, 72h Cold-Start Guard)
-    ├── feat_gw_relative_anomaly_score
-    ├── feat_gw_z_offline
-    └── feat_gw_z_missing
-                  │
-                  ▼
-SUPERVISED RISK ESTIMATOR
-(HistGradientBoostingClassifier, balanced weights, lr=0.05, max_depth=4, seed=42)
-                  │
-                  ▼
-OPERATIONAL COOLDOWN POLICY
-(Suppresses gateways visited within the prior 2 weeks to eliminate duplicate truck rolls)
-                  │
-                  ▼
-DETERMINISTIC TOP-15 SELECTION
-(Strict Lexicographical Ordering: -risk_score, gateway_id)
-                  │
-                  ▼
-DIAGNOSTIC EXPLANATION GENERATOR
-(Integrates Domain Failure Signatures SIG_01 to SIG_05; reasons strictly <= 300 characters)
-                  │
-                  ▼
-predictions.csv (Exactly 120 rows, 8 weeks, 15 visits/week, ranks 1 to 15)
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ WHAT    │ Prioritize which 15 cellular gateways receive physical technician visits each week.  │
+│ WHY     │ Fixed capacity of 15 visits/week; unaddressed genuine faults accrue €600/week penalty. │
+│ HOW     │ Leakage-safe temporal ML + 28d gateway self-baselines + 2-week operational cooldown.   │
+│ RESULT  │ Candidate C3 achieved €115,200 on the documented 16-week historical proxy benchmark,  │
+│         │ outperforming Frozen Baseline V1 (€128,400) and the 3-Sigma baseline (€164,400).     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### The 5 Modular Innovations Evaluated:
-
-1. **Innovation 1: Failure Progression / Deterioration Score**
-   - *Status*: **PROMOTED AS ANALYTICAL MONITOR & EXPLANATION FEATURE**.
-   - Compares trailing 7d telemetry against prior 21d baseline. Reduces temporal fold cost variance by 60%.
-2. **Innovation 2: Operational Failure Signatures**
-   - *Status*: **PROMOTED AS PRIMARY EXPLANATION ENGINE**.
-   - 5 domain-grounded diagnostic rules (`SIG_01`–`SIG_05`) exhibiting relative risk ratios of $9.4\times$ to $20.6\times$ for collection deficits, generating compliant ($\le 300$ chars) diagnostic reason tags.
-3. **Innovation 3: Gateway-Specific Historical Baseline**
-   - *Status*: **PROMOTED AS CORE CHAMPION FEATURE FAMILY**.
-   - 28-day self-reference z-scores with 72h cold-start fallback. Drives the single largest saving: cuts 16-week cost to **€115,200** (-€13,200), boosting unseen-gateway PR-AUC from 0.6777 to **0.7658**.
-4. **Innovation 4: Risk × Deterioration Priority Engine**
-   - *Status*: **EVALUATED CANDIDATE; RETAINED AS ALTERNATIVE PRIORITY MODULE**.
-   - Multiplicative, additive, Borda, and quadrant boost formulations evaluated. While Borda cut repeats from 52 to 50, priority rank adjustments altered probability calibration, incurring €2,400 higher penalty costs than pure C3 risk ranking (€117,600 vs €115,200).
-5. **Innovation 5: Unsupervised Fleet Novelty / OOD Detector**
-   - *Status*: **REJECTED FROM PRIMARY DISPATCH** (Retained strictly as Auxiliary Drift Auditor).
-   - Forensics reveal Isolation Forest anomaly flags are driven by benign telemetry missingness and high-gain Yagi antennas, increasing 16-week cost by +€3,600.
+> **Note on Evaluation Terminology**: All cost figures reported in this project represent **historical proxy-target economic benchmarks** evaluated under the challenge's documented offline simulation protocol. They are not official hidden-ground-truth scores or guaranteed real-world savings.
 
 ---
 
-## 4. Directory Layout
+## 1. Project at a Glance
+
+| Operational / Technical Dimension | Specification | Source / Verification Authority |
+| :--- | :--- | :--- |
+| **Fleet Scale** | 320 cellular smart-meter telemetry gateways | `gateway_master.csv` |
+| **Scored Evaluation Window** | 8 consecutive Mondays (`2026-02-02` to `2026-03-23`) | [LPDG Brief p. 2, FAQ R1 §5.1] |
+| **Weekly Dispatch Capacity** | Exactly **15 visits per week** (hard constraint) | [LPDG Brief p. 2, FAQ R1 §5.2] |
+| **Total Submission Selections** | Exactly **120 gateway selections** (8 weeks $\times$ 15 visits) | `predictions.csv` |
+| **On-Site Technician Visit Cost** | **€380.00** per dispatch ($120 \times €380 = \mathbf{€45,600}$ fixed) | [LPDG Brief p. 3, FAQ R2 §3.6] |
+| **Unaddressed Fault Penalty** | **€600.00** per gateway-week an active fault persists | [LPDG Brief p. 3, FAQ R1 §4.1] |
+| **Production Architecture** | **Candidate C3** (32 Features, HistGradientBoosting, 2-Wk Cooldown) | Selected Champion Pipeline |
+| **Historical Proxy Benchmark Cost** | **€115,200** (vs €128,400 Baseline V1, vs €164,400 3-Sigma) | 16-Week Historical Benchmark |
+| **Automated Test Suite** | **70 / 70 passing** (0 failures, 0 errors in 41.4s) | `tests/test_*.py` |
+| **Official Grader Validator** | **Exit Code 0** (`predictions.csv: OK`) | `validate_submission.py` |
+| **Prediction Artifact SHA256** | `f27120799bd55bde34508299c411f763d54e7766e266ac54c0619307a6d54608` | Verified deterministic |
+
+---
+
+## 2. The Operational Objective & Problem Formulation
+
+In utility grid operations, predictive maintenance is not an unconstrained binary classification task. It is a **constrained resource allocation problem under asymmetric financial risk**.
+
+### Mathematical Formulation
+
+Let:
+- $G$ denote the eligible fleet of smart-meter telemetry gateways ($|G| \le 320$).
+- $k \in \{1, \dots, K\}$ denote the decision weeks ($K = 8$ for competition submission; $K = 16$ for historical benchmark).
+- $x(g,k) \in \{0, 1\}$ denote the binary decision to dispatch a technician to gateway $g$ at week $k$.
+- $u(g,k) \in \{0, 1\}$ denote the unaddressed fault indicator, indicating that gateway $g$ is in an active collection deficit episode at week $k$ that has not yet been resolved by an on-site visit.
+
+The operational objective is to minimize total economic cost subject to the weekly technician capacity constraint:
+
+$$\min_{\{x(g,k)\}} \; \text{Total Cost} = \underbrace{\sum_{k=1}^K \sum_{g \in G} 380 \cdot x(g,k)}_{\text{Direct Technician Visit Costs}} \;+\; \underbrace{\sum_{k=1}^K \sum_{g \in G} 600 \cdot u(g,k)}_{\text{Unaddressed Fault Penalty Costs}}$$
+
+$$\text{subject to} \quad \sum_{g \in G} x(g,k) = 15 \quad \forall k \in \{1, \dots, K\}, \quad x(g,k) \in \{0, 1\}$$
+
+### Plain-English Economic Mechanics
+
+1. **Fixed Visit Expenditure**: Because every valid submission must dispatch exactly 15 visits every week, the total visit cost is constant:
+   $$C_{\text{visit}} = 15 \times 8 \times €380 = \mathbf{€45,600} \quad (\text{Competition Window})$$
+   $$C_{\text{visit}} = 15 \times 16 \times €380 = \mathbf{€91,200} \quad (\text{16-Week Historical Benchmark})$$
+2. **Variable Optimization Margin**: The entire financial divergence between strategies is determined by **how effectively the 15 weekly slots intercept active fault episodes**, preventing the compounding €600/week penalty.
+
+---
+
+## 3. Fault-Episode Economics & Cooldown Dynamics
+
+The challenge evaluates multi-week fault episodes under counterfactual episode accounting:
 
 ```text
-project-root/
-├── run.py                 # Universal single-command entrypoint for predictions.csv
-├── run.sh                 # Unix shell wrapper for one-command execution
-├── validate_submission.py # Official LPDG submission validator script
-├── requirements.txt       # Minimal, verified production dependencies
-├── predictions.csv        # Official 120-row competition submission artifact
-├── DECISIONS.md           # Five official project decisions, alternatives, and trade-offs
-├── AI-USAGE.md            # AI usage disclosure, error detection, and verification log
-├── .gitignore             # Strict privacy firewall excluding challenge data and caches
-├── docs/
-│   ├── SCREEN_RECORDING_SCRIPT.md   # Official 7-minute visual & spoken cue sheet
-│   ├── FINAL_SUBMISSION_CHECKLIST.md # Complete verification checklist
-│   ├── 01_context/                  # Authoritative challenge briefs and FAQs
-│   ├── 02_decisions/                # Project Decision Register (D-01 to D-28)
-│   ├── 03_data/                     # Data audits and Feature Registry (Families 1 to 8)
-│   ├── 04_ml/                       # Target definition, validation plan, model card
-│   ├── 05_experiments/              # Full experiment ledger (E-01 through E-INNOV-06)
-│   └── innovation/                  # Innovation Phase deep-dives (01 to 07, FINAL_AUDIT)
-├── src/
-│   ├── data/              # Ingestion, partition discovery, time grid, normalizer
-│   ├── features/          # Feature builders, deterioration dynamics, gateway baselines
-│   ├── intelligence/      # Failure signatures, priority engine, novelty detection
-│   ├── models/            # Target definition, trainer, decision policy
-│   ├── evaluation/        # Economic cost simulator, temporal and spatial splitters
-│   ├── prediction/        # Production inference pipeline and diagnostic reason builder
-│   └── utils/             # Paths, config, constants, and logging
-└── tests/                 # 70 automated unit tests covering all components
+Fault Episode Accrual & Interruption Mechanism:
+───────────────────────────────────────────────────────────────────────────────────────────
+Week k:       Fault Starts (read_ratio < 0.50)  ──►  Unvisited (x=0)  ──►  €600 penalty accrues
+Week k+1:     Fault Continues                   ──►  Unvisited (x=0)  ──►  €600 penalty accrues
+Week k+2:     Technician Dispatched (x=1)       ──►  Episode Intercepted! Penalty accrual STOPS
+Week k+3:     Repaired Gateway in Cooldown      ──►  Suppressed (x=0) ──►  €0 penalty (cleared)
+───────────────────────────────────────────────────────────────────────────────────────────
+Pathology Avoided: Repeat Visit Waste
+Week k+3:     If Dispatched Again (x=1)         ──►  €380 Wasted Visit (Zero additional penalty saved!)
+```
+
+### Key Accounting Invariants:
+- **Episode Interruption**: A physical technician visit ($x(g,k) = 1$) halts penalty accrual for that continuous failure episode.
+- **Repeat Visit Penalty**: Dispatching a second visit to the same gateway while the same episode is already addressed consumes a valuable visit slot without generating any additional penalty savings (€380 wasted truck roll).
+- **The 2-Week Cooldown Policy**: To prevent this pathology, our decision policy suppresses any gateway visited within the prior 2 weeks ($k-1$ and $k-2$), eliminating redundant dispatches and maximizing fleet coverage.
+- **Static Telemetry vs Counterfactual Evaluation**: The raw telemetry in the dataset is historical and does not counterfactually change after a visit. The economic simulator models episode interruption counterfactually in offline evaluation.
+
+---
+
+## 4. Visual Benchmark Comparison
+
+All candidate strategies were evaluated on the exact same **16-week historical benchmark window** (`2025-10-06` to `2026-01-19`, 4,404 gateway-weeks evaluated, 372 true severe deficit fault-weeks, exactly 240 technician dispatches per active strategy):
+
+```text
+Historical Proxy-Target Benchmark Cost (€)
+─────────────────────────────────────────────────────────────────────────────────
+3-Sigma Baseline (Unsupervised Reference)  ████████████████████████████  €164,400
+Frozen Baseline V1 (Stage 9 Pipeline)      █████████████████████        €128,400
+Candidate C10 (Integrated Alternative)     ███████████████████          €117,600
+Candidate C3 (Promoted Champion Pipeline)  ██████████████████           €115,200
+─────────────────────────────────────────────────────────────────────────────────
+                                           €0      €50,000   €100,000  €150,000
+```
+
+### Detailed Financial & Operational Reconciliation
+
+| Metric | 3-Sigma Baseline (`baseline_3sigma.py`) | Frozen Baseline V1 (Stage 9) | Candidate C10 (Integrated) | Candidate C3 (Champion) |
+| :--- | :---: | :---: | :---: | :---: |
+| **Total Operational Cost** | **€164,400** | **€128,400** | **€117,600** | **€115,200** |
+| Fixed Visit Cost ($240 \times €380$) | €91,200 | €91,200 | €91,200 | €91,200 |
+| Unaddressed Penalty Cost | €73,200 | €37,200 | €26,400 | **€24,000** |
+| Unaddressed Fault-Weeks | 122 | 62 | 44 | **40** |
+| Fleet Recall on Faults | 67.20% | 83.33% | 88.17% | **89.25%** |
+| Precision @ 15 | 24.58% | 30.83% | 32.50% | **32.92%** |
+| Spatial Gateway-Disjoint CV PR-AUC | — | 0.6777 | 0.7438 | **0.7658** |
+| Spatial CV Fold Std Dev | — | €2,810 | €2,590 | **€1,489** |
+
+### Benchmark Cost Differences:
+- **C3 vs 3-Sigma Reference Baseline**:
+  $$\frac{€115,200 - €164,400}{€164,400} = \mathbf{-29.93\%} \quad (-\mathbf{€49,200} \text{ operational cost difference, } \mathbf{-67.2\%} \text{ penalty reduction})$$
+- **C3 vs Frozen Baseline V1**:
+  $$\frac{€115,200 - €128,400}{€128,400} = \mathbf{-10.28\%} \quad (-\mathbf{€13,200} \text{ operational cost difference, } \mathbf{-35.5\%} \text{ penalty reduction})$$
+- **C3 vs Candidate C10**:
+  $$\frac{€115,200 - €117,600}{€117,600} = \mathbf{-2.04\%} \quad (-\mathbf{€2,400} \text{ lower cost, 4 fewer unaddressed faults, 42% lower CV fold variance})$$
+
+---
+
+## 5. Production ML Pipeline Architecture (Candidate C3)
+
+The production pipeline implements **Candidate C3**, combining 29 audited baseline features with 3 gateway-specific self-history baseline features, pure calibrated risk probabilities, and a 2-week post-visit cooldown:
+
+```text
+═══════════════════════════════════════════════════════════════════════════════════════════
+                              C3 CHAMPION DISPATCH PIPELINE
+═══════════════════════════════════════════════════════════════════════════════════════════
+
+                       RAW TELEMETRY + GATEWAY METADATA
+                                      │
+                                      ▼
+                       DATA QUALITY & LIFECYCLE FIREWALL
+       (Excludes future installs & decommissioned units; enforces ts_utc < Monday 00:00:00 UTC)
+                                      │
+                                      ▼
+                       LEAKAGE-SAFE FEATURE MATRIX (32 Features)
+       ┌────────────────────────────────────────────────────────────────────────┐
+       │ 29 Audited Baseline Features                                           │
+       │ • Distinct hourly availability (168h conservation law)                 │
+       │ • Bounded peak offline duration (<= 168h wall-clock cap)               │
+       │ • Power-cycle bursts & reboot counts                                   │
+       │ • Cellular RSSI, transmit success ratio, German site mappings          │
+       ├────────────────────────────────────────────────────────────────────────┤
+       │ 3 Gateway-Specific Self-Baseline Features (28d History, 72h Guard)     │
+       │ • feat_gw_relative_anomaly_score                                       │
+       │ • feat_gw_z_offline                                                    │
+       │ • feat_gw_z_missing                                                    │
+       └────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+                       SUPERVISED RISK ESTIMATOR
+       (HistGradientBoostingClassifier, balanced weights, lr=0.05, max_depth=4, seed=42)
+                                      │
+                                      ▼
+                       CONTINUOUS RISK PROBABILITY: p(g, k)
+                                      │
+                                      ▼
+                       2-WEEK POST-VISIT COOLDOWN POLICY
+       (Suppresses gateways visited in prior 2 weeks; eliminates repeat truck rolls)
+                                      │
+                                      ▼
+                       DETERMINISTIC CONSTRAINED RANKING
+       (Lexicographical Ordering: Descending by risk_score, Ascending by gateway_id)
+                                      │
+                                      ▼
+                       TOP-15 GATEWAY SELECTIONS PER WEEK
+                                      │
+                                      ▼
+                       DIAGNOSTIC EXPLANATION GENERATOR
+       (Integrates Domain Failure Signatures SIG_01 to SIG_05; strings <= 300 chars)
+                                      │
+                                      ▼
+                       FINAL SUBMISSION ARTIFACT
+       predictions.csv (Exactly 120 rows, 8 weeks, 15 visits/week, ranks 1 to 15)
+
+═══════════════════════════════════════════════════════════════════════════════════════════
+                   DIAGNOSTIC & AUDITING COMPONENTS (Non-Dispatch)
+═══════════════════════════════════════════════════════════════════════════════════════════
+ • Innovation 1 (Deterioration Dynamics): Monitored for temporal drift.
+ • Innovation 2 (Failure Signatures): Evaluated as domain rules; serves as reason generator.
+ • Innovation 5 (Novelty Detection): Evaluated & formally REJECTED from primary dispatch;
+   retained strictly as an offline auxiliary data-quality / missingness auditor.
 ```
 
 ---
 
-## 5. Verification & Reproduction Instructions
+## 6. What the Model Learns From: Mathematical Formulations
 
-### 1. One-Command Prediction Generation:
+Every engineered feature is grounded in physical domain invariants and audited for temporal leakage safety:
+
+### 1. Operational Proxy Target
+Smart meter collection deficits directly induce utility financial penalties (€600/week unaddressed fault). The forward target is evaluated over the subsequent 7-day interval $[T, T + 7\text{d})$:
+
+$$Y_{g, k+1} = \mathbb{I}\left(\frac{\text{meters\_read}_{g, k+1}}{\text{meters\_expected}_{g, k+1}} < 0.50\right)$$
+
+*Status*: Historical proxy target used for offline model development and benchmarking, not hidden official ground truth.
+
+### 2. Wall-Clock Bounded Peak Offline Duration
+Raw telemetry `offline_duration_sec` acts as a frozen register snapshot that repeats across consecutive rows when a gateway hangs. To eliminate impossible values (e.g. 3,901h in a week), we evaluate the peak disconnection event bounded strictly by wall-clock time:
+
+$$\text{feat\_offline\_hours} = \min\left(168.0, \; \frac{\max_{t < T}(\text{offline\_duration\_sec})}{3600.0}\right)$$
+
+### 3. Physical Hourly Conservation Law
+Because high-traffic gateways transmit multiple packet bursts per clock hour, counting raw rows inflated observed time beyond 168 hours. We enforce distinct hourly floor bucketing:
+
+$$\text{feat\_observed\_hours} = \min\left(168.0, \; \left|\big\{ \lfloor t \rfloor_{\text{hour}} : t \in \text{telemetry}_{g} \big\}\right|\right)$$
+$$\text{feat\_missing\_hours} = 168.0 - \text{feat\_observed\_hours} \implies \text{feat\_observed\_hours} + \text{feat\_missing\_hours} \equiv 168.0$$
+
+### 4. Gateway-Specific Self-Baselines
+Different gateways exhibit vastly different normal operating baselines due to static antenna gain (Yagi 9dBi averages 389,000 packets/week vs 4,600 for Omni 3dBi) and local meter counts. Comparing everyone against a single global fleet threshold creates false alarms.
+
+We compute asset-specific deviations against the gateway's own prior 28-day operating history $[T - 28\text{d}, T - 7\text{d})$ with a strict 72-hour cold-start guard:
+
+$$z_{\text{offline}} = \frac{r_{\text{offline\_peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}, \qquad z_{\text{missing}} = \frac{r_{\text{missing\_hours}} - \mu_{g,\text{missing\_weekly}}}{12.0}$$
+
+$$\text{feat\_gw\_relative\_anomaly\_score} = \max(0, z_{\text{offline}}) + \max(0, z_{\text{missing}}) + \max(0, z_{\text{disconns}})$$
+
+If a gateway has $<72\text{h}$ of operating history, it seamlessly falls back to fleet medians (4.30% cold-start prevalence).
+
+---
+
+## 7. Why Gateway Self-Baselines?
+
+```text
+GLOBAL POPULATION BASELINE (Flawed by Asset Heterogeneity)
+─────────────────────────────────────────────────────────────────────────────
+High-Gain Yagi Gateway (389k pkts/wk) ──┐
+Standard Omni Gateway   (45k pkts/wk) ──┼──► Evaluated against ONE global threshold
+Rural Low-Traffic Unit   (4k pkts/wk) ──┘    Confounding: High gain masks faults;
+                                             low traffic looks permanently broken!
+
+GATEWAY SELF-BASELINE (Asset-Adaptive Anomaly Isolation)
+─────────────────────────────────────────────────────────────────────────────
+High-Gain Yagi Gateway ──► Compare current 7d vs Yagi's OWN 28d history
+Standard Omni Gateway  ──► Compare current 7d vs Omni's OWN 28d history
+Rural Low-Traffic Unit ──► Compare current 7d vs Rural Unit's OWN 28d history
+                           Result: Isolates true asset-relative degradation!
+```
+
+In empirical testing, adding gateway self-baselines was the single most impactful innovation:
+- Reduced 16-week benchmark cost from €128,400 to **€115,200** (-€13,200).
+- Slashed unaddressed fault-weeks from 62 to **40**.
+- Boosted unseen-gateway Spatial CV PR-AUC from 0.6777 to **0.7658** (+0.0881 improvement).
+- Reduced cross-validation fold standard deviation by 47% (down to €1,489).
+
+---
+
+## 8. Evaluated Innovation Combinations (C0–C10)
+
+During the Innovation Phase, 5 modular candidate technologies were tested across 11 combination architectures (C0 through C10) under the identical 16-week benchmark protocol:
+
+| Architecture ID | Configuration Description | Features | Benchmark Cost (€) | Penalty Cost (€) | Recall | Unaddressed Faults | Unseen Gateway PR-AUC | Status in Submission |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **C0** | Baseline V1 Reference | 29 | €128,400 | €37,200 | 83.33% | 62 | 0.6777 | Frozen Reference |
+| **C1** | Base + Deterioration Dynamics | 30 | €121,200 | €30,000 | 86.56% | 50 | 0.7416 | Evaluated |
+| **C2** | Base + Failure Signatures | 30 | €130,200 | €39,000 | 82.53% | 65 | 0.6760 | Evaluated |
+| **C3** | **Base + Gateway Self-Baselines** | **32** | **€115,200** | **€24,000** | **89.25%** | **40** | **0.7658** | **PROMOTED CHAMPION** |
+| **C4** | Base + Novelty Detection | 30 | €132,000 | €40,800 | 81.72% | 68 | 0.6779 | Formally Rejected |
+| **C5** | Base + Det + Signatures | 31 | €118,800 | €27,600 | 87.63% | 46 | 0.7438 | Evaluated |
+| **C6** | Base + Gw Base + Det | 33 | €120,000 | €28,800 | 87.10% | 48 | 0.7648 | Evaluated |
+| **C7** | Base + Priority Engine | 29 | €122,400 | €31,200 | 86.02% | 52 | 0.6777 | Evaluated |
+| **C8** | Base + Priority + Signatures | 30 | €122,400 | €31,200 | 86.02% | 52 | 0.6760 | Evaluated |
+| **C9** | Base + Priority + Novelty | 30 | €124,200 | €33,000 | 85.22% | 55 | 0.6779 | Formally Rejected |
+| **C10** | Integrated Candidate | 31 | €117,600 | €26,400 | 88.17% | 44 | 0.7438 | Documented Alternative |
+
+### Why C3 was Selected over C10:
+1. **Lower Operational Cost**: C3 achieved €115,200 vs €117,600 for C10 (saving €2,400 more and leaving 4 fewer unaddressed faults: 40 vs 44).
+2. **Superior Generalization to Unseen Hardware**: In 5-fold spatial cross-validation on completely unseen gateways, C3 achieved a higher PR-AUC (0.7658 vs 0.7438) and 42% lower fold standard deviation (€1,489 vs €2,590).
+3. **Architectural Parsimony**: C3 uses pure calibrated probabilities from 32 features, whereas C10 introduces heuristic rank weighting that altered probability calibration.
+
+---
+
+## 9. From Telemetry to Decision: Why Constrained Ranking?
+
+In standard machine learning, binary classification models output a probability $\hat{p}$, and instances are selected using a threshold: $\hat{p} \ge \theta$.
+
+In our operational setting, **thresholding fails**:
+- A fixed threshold $\theta = 0.50$ might select 35 gateways on a storm week (exceeding technician capacity) and only 3 gateways on a quiet week (wasting pre-allocated technician shifts).
+- The utility operational reality dictates a **hard resource constraint**: exactly 15 technician dispatches are scheduled per week.
+
+```text
+Decision Flow:
+┌────────────────────────────────┐
+│ Telemetry & Metadata           │
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ Leakage-Safe Feature Builder   │ ──► 32 Audited Features (Historical Cutoff t < T)
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ HistGradientBoosting Model     │ ──► Continuous Risk Probability: p(g, k) ∈ [0, 1]
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ 2-Week Post-Visit Cooldown     │ ──► Suppress g if visited in week k-1 or k-2
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ Deterministic Ranking          │ ──► Sort eligible fleet by: (-risk_score, gateway_id)
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ Select Top 15 Gateways         │ ──► Exactly 15 dispatches matching weekly capacity
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ Diagnostic Reason Builder      │ ──► Attach failure signature explanation (<= 300 chars)
+└───────────────┬────────────────┘
+                ▼
+┌────────────────────────────────┐
+│ predictions.csv                │ ──► Fully validated competition submission artifact
+└────────────────────────────────┘
+```
+
+Deterministic tie-breaking sorts ascending by `gateway_id`, guaranteeing identical predictions across runs without platform variance.
+
+---
+
+## 10. Validation Philosophy & Zero-Lookahead Firewall
+
+To guarantee scientific validity, the evaluation methodology enforces strict temporal and spatial firewalls:
+
+```text
+                      PRE-DECISION WINDOW                        FORWARD EVALUATION WINDOW
+                  (Feature Extraction Domain)                       (Target Assessment)
+ ─────────────────────────────────────────────────────────────┼─────────────────────────────►
+  Telemetry: t < Monday 00:00:00 UTC (T)                      │  Target: [T, T + 7 days)
+  Self-Baselines: [T - 28d, T - 7d)                            │  Smart meter read ratio
+  Deterioration: [T - 7d, T) vs [T - 28d, T - 7d)             │  evaluated strictly forward
+                                                              │
+                                            FIREWALL BOUNDARY │ (NO FUTURE TELEMETRY
+                                           Monday 00:00:00 UTC│  CROSSES THIS LINE)
+```
+
+### Dual Validation Rigor:
+1. **Temporal Walk-Forward Validation**: Evaluated forward in time across quarterly splits (`2025-Q4` vs `2026-Q1`) to simulate operational deployment under seasonal drift (Temporal PR-AUC: **0.8465**).
+2. **Spatial Gateway-Disjoint 5-Fold Validation**: Evaluated across 5 folds where the gateways in the test fold are completely absent from training (0% device overlap), measuring generalization to newly installed assets (Spatial PR-AUC: **0.7658**).
+
+---
+
+## 11. Key Formulations Quick Reference
+
+| Concept | Mathematical / Logical Formulation | Code Reference |
+| :--- | :--- | :--- |
+| **Proxy Target** | $Y_{g, k+1} = \mathbb{I}\left(\frac{\text{meters\_read}_{g, k+1}}{\text{meters\_expected}_{g, k+1}} < 0.50\right)$ | `src/models/target.py` |
+| **Capacity Constraint** | $\sum_{g \in G} x(g,k) = 15 \quad \forall k \in \{1, \dots, K\}$ | `src/models/decision_policy.py` |
+| **Weekly Fixed Budget** | $C_{\text{visit}} = 15 \times 8 \times €380 = €45,600$ | `src/utils/config.py` |
+| **Benchmark Objective** | $\min \sum_k \sum_g \left( 380 \cdot x(g,k) + 600 \cdot u(g,k) \right)$ | `src/evaluation/cost_simulator.py` |
+| **Peak Offline Bound** | $\text{feat\_offline\_hours} = \min\left(168.0, \frac{\max(\text{offline\_duration\_sec})}{3600.0}\right)$ | `src/features/builder.py` |
+| **Hourly Conservation** | $\text{feat\_observed\_hours} + \text{feat\_missing\_hours} \equiv 168.0$ | `src/features/builder.py` |
+| **Gateway Baseline Z-Score** | $z_{\text{offline}} = \frac{r_{\text{offline\_peak}} - \mu_{g,\text{offline}}}{\sigma_{g,\text{offline}} + 0.1}$ | `src/features/gateway_baseline.py` |
+| **2-Week Cooldown** | $x(g,k) = 0 \quad \text{if } g \in \text{Visited}(k-1) \cup \text{Visited}(k-2)$ | `src/models/decision_policy.py` |
+| **Deterministic Tie-Break** | $\text{Key} = (-p(g, k), \; \text{gateway\_id})$ | `src/models/decision_policy.py` |
+
+---
+
+## 12. Engineering Reproducibility & Verification
+
+The repository is built for complete, standalone offline reproducibility:
+
+### Step 1: One-Command Prediction Pipeline
 From the repository root, execute:
 ```bash
 python run.py
 ```
 *(Or on Unix/Linux: `./run.sh`)*  
 *(Optional custom data directory: `python run.py --data /path/to/data`)*  
-Generates the official `predictions.csv` deterministically with zero manual input, zero external internet dependencies, and zero runtime API keys.
 
-### 2. Validate Official Submission Artifact:
-Run the official challenge grader script:
+- Requires zero manual intervention, zero external internet dependencies, and zero runtime API keys.
+- Executes data quality filtering, 32-feature extraction with gateway baselines, model fitting, 2-week cooldown enforcement, and deterministic ranking in $<10$ seconds.
+- Produces the byte-for-byte identical `predictions.csv`.
+
+### Step 2: Validate Submission Artifact
+Run the official challenge grader validation script:
 ```bash
 python validate_submission.py predictions.csv
 ```
-*Expected Output: `predictions.csv: OK (15 ranked gateways for each of 8 weeks, exit code 0)`.*
+**Expected Output**:
+```text
+predictions.csv: OK
+  15 ranked gateways for each of 8 weeks, 2026-02-02 to 2026-03-23
+```
+Exit code: `0`.
 
-### 3. Run Automated Unit Test Suite:
+### Step 3: Run Automated Test Suite
+Execute the comprehensive test suite covering Stages 1–9 and all modular innovation engines:
 ```bash
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
-*Expected Output: 70 tests passed, 0 failures, 0 errors (100% GREEN).*
+**Expected Output**:
+```text
+Ran 70 tests in ~41s
+OK
+```
+Zero failures, zero errors.
+
+### Prediction Artifact Verification:
+- **File**: `predictions.csv`
+- **Rows**: Exactly 120 rows (8 scored weeks $\times$ 15 ranked gateways/week)
+- **SHA256**: `f27120799bd55bde34508299c411f763d54e7766e266ac54c0619307a6d54608`
 
 ---
 
-## 6. Documented Limitations ("What It Cannot Do")
+## 13. Documented Limitations ("What It Cannot Do")
 
-1. **Sub-Weekly Transient Micro-Outages**: Telemetry is aggregated into trailing 7-day windows aligned with weekly Monday dispatch boundaries; transient mid-week micro-outages that recover before Sunday night are unobserved until the subsequent cycle.
-2. **Static Cooldown Window**: The 2-week cooldown is uniform across all assets, regardless of repair complexity. An asset needing an antenna realignment is suppressed for the same 14-day duration as a full gateway replacement.
-3. **Operational Proxy Limitation**: The model predicts smart meter collection deficits (<50%), which is an operational business proxy rather than direct physical hardware defect ground truth.
+To maintain scientific integrity, the known operational limitations of the pipeline are explicitly documented:
+
+1. **Sub-Weekly Transient Micro-Outages**: Telemetry is aggregated into trailing 7-day windows aligned with weekly Monday dispatch boundaries. A transient outage that resolves in 6 hours on Wednesday will not trigger a high risk score for the subsequent week.
+2. **Static Cooldown Window**: The 2-week cooldown is uniform across all assets, regardless of repair complexity. An asset requiring only an antenna realignment is suppressed for the same 14-day duration as an asset undergoing a full modem replacement.
+3. **Operational Business Proxy**: The model predicts smart meter collection collapse ($\text{read\_ratio} < 0.50$). This is an operational business proxy rather than direct physical hardware ground truth; environmental cell tower outages can trigger deficits without internal gateway faults.
+4. **Counterfactual Telemetry Immobility**: The raw telemetry in the dataset is historical and static. While the economic simulator counterfactually models episode interruption upon technician visit, the underlying physical telemetry does not dynamically alter post-dispatch.
 
 ---
 
-## 7. Screen Recording
+## 14. Project Structure
+
+```text
+.
+├── run.py                          # Universal single-command entrypoint for predictions.csv
+├── run.sh                          # Unix shell wrapper for one-command execution
+├── validate_submission.py          # Official LPDG submission grader validator script
+├── requirements.txt                # Minimal production dependencies (numpy, pandas, scikit-learn, pyarrow)
+├── predictions.csv                 # Official 120-row competition submission artifact
+├── DECISIONS.md                    # Five official project decisions, alternatives, and trade-offs
+├── AI-USAGE.md                     # AI disclosure, caught errors, and human governance log
+├── .gitignore                      # Strict institutional privacy firewall excluding raw challenge data
+├── docs/
+│   ├── SCREEN_RECORDING_SCRIPT.md  # Official 7-minute visual & spoken cue sheet
+│   ├── FINAL_SUBMISSION_CHECKLIST.md# Comprehensive submission readiness audit checklist
+│   ├── 01_context/                 # Authoritative challenge briefs and FAQs
+│   ├── 02_decisions/               # Project Decision Register (D-01 through D-28)
+│   ├── 03_data/                    # Data quality audit and Feature Registry (Families 1 to 8)
+│   ├── 04_ml/                      # Target definition, validation plan, and model card
+│   ├── 05_experiments/             # Full experiment ledger (E-01 through E-INNOV-06)
+│   ├── 06_submission/              # Final benchmark results and submission requirements
+│   ├── 07_compliance/              # Reproducibility audit and rule compliance checklist
+│   └── innovation/                 # Innovation Phase deep-dives (01 to 07, FINAL_AUDIT)
+├── src/
+│   ├── data/                       # Ingestion, partition discovery, time grid, normalizer
+│   ├── features/                   # Feature builder, deterioration dynamics, gateway self-baselines
+│   ├── intelligence/               # Failure signatures, priority engine, novelty detection
+│   ├── models/                     # Target definition, trainer, decision policy
+│   ├── evaluation/                 # Economic cost simulator, temporal and spatial splitters
+│   ├── prediction/                 # Production inference pipeline and diagnostic reason builder
+│   └── utils/                      # Dynamic paths, configuration, constants, and logging
+└── tests/                          # 70 automated unit tests (Stages 1–9 and Innovations)
+```
+
+---
+
+## 15. Screen Recording
 
 - **Presentation Script**: Complete 7-minute cue sheet with timestamps and spoken text is documented in [`docs/SCREEN_RECORDING_SCRIPT.md`](docs/SCREEN_RECORDING_SCRIPT.md).
-- **Recording Link**: `PENDING` *(To be recorded and uploaded by the candidate prior to the institutional deadline).*
+- **Recording Status**: `Screen recording: Pending final upload.` *(To be recorded and linked prior to the final submission deadline).*
 
 ---
 
-## 8. AI Usage Disclosure
+## 16. AI Usage Disclosure & Governance
 
-AI assistance was utilized as an interactive pair-programming and statistical scaffolding collaborator. All architectural decisions, leakage firewalls, and feature definitions were rigorously verified by the candidate. Complete disclosure and documentation of three concrete AI errors caught and corrected are in [`AI-USAGE.md`](AI-USAGE.md).
+AI assistance was utilized as an interactive pair-programming and statistical scaffolding collaborator. All architectural decisions, leakage firewalls, and feature definitions were verified by human review. Complete disclosure and documentation of three concrete AI errors caught and corrected are documented in [`AI-USAGE.md`](AI-USAGE.md).
