@@ -16,7 +16,15 @@ import pandas as pd
 
 from app.utils.config import PROJECT_ROOT
 
-RESULTS_JSON_PATH = PROJECT_ROOT / "scratch" / "innovation_experiment_results.json"
+def _resolve_results_json_path() -> Path:
+    """Resolve results json from packaged app/data or scratch directory."""
+    packaged = Path(__file__).resolve().parent.parent / "data" / "innovation_experiment_results.json"
+    if packaged.is_file():
+        return packaged
+    return PROJECT_ROOT / "scratch" / "innovation_experiment_results.json"
+
+
+RESULTS_JSON_PATH = _resolve_results_json_path()
 
 
 class ModelService:
@@ -46,12 +54,13 @@ class ModelService:
     def get_configuration_trade_offs() -> pd.DataFrame:
         """Load and tabularize the 11 evaluated configurations (C0 through C10).
         
-        Sourced directly from scratch/innovation_experiment_results.json.
+        Sourced directly from packaged app/data or scratch/innovation_experiment_results.json.
         """
-        if not RESULTS_JSON_PATH.is_file():
+        results_path = _resolve_results_json_path()
+        if not results_path.is_file():
             return pd.DataFrame()
 
-        with open(RESULTS_JSON_PATH, "r", encoding="utf-8") as f:
+        with open(results_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         comb_graph = data.get("combination_graph", {})

@@ -21,7 +21,15 @@ from app.utils.config import (
     VISITS_PER_WEEK,
 )
 
-RESULTS_JSON_PATH = PROJECT_ROOT / "scratch" / "innovation_experiment_results.json"
+def _resolve_results_json_path() -> Path:
+    """Resolve results json from packaged app/data or scratch directory."""
+    packaged = Path(__file__).resolve().parent.parent / "data" / "innovation_experiment_results.json"
+    if packaged.is_file():
+        return packaged
+    return PROJECT_ROOT / "scratch" / "innovation_experiment_results.json"
+
+
+RESULTS_JSON_PATH = _resolve_results_json_path()
 
 
 class EconomicService:
@@ -43,10 +51,11 @@ class EconomicService:
     @staticmethod
     def get_historical_benchmark_data() -> dict[str, Any]:
         """Authoritative 16-week development benchmark figures from raw artifacts."""
-        if not RESULTS_JSON_PATH.is_file():
+        results_path = _resolve_results_json_path()
+        if not results_path.is_file():
             return {"error": "Experiment results artifact not found in workspace."}
 
-        with open(RESULTS_JSON_PATH, "r", encoding="utf-8") as f:
+        with open(results_path, "r", encoding="utf-8") as f:
             exp_data = json.load(f)
 
         comb_graph = exp_data.get("combination_graph", {})

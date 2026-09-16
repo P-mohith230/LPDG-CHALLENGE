@@ -1,0 +1,958 @@
+{
+  "metadata": {
+    "dataset_rows": 6927,
+    "baseline_features_count": 29,
+    "candidate_features_count": 59,
+    "eval_weeks_count": 16,
+    "eval_start": "2025-10-06",
+    "eval_end": "2026-01-19"
+  },
+  "innovation_1_deterioration": {
+    "E-D01 (Baseline 31 features)": {
+      "feature_count": 29,
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 37200.0,
+        "total_cost_eur": 128400.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8333,
+        "repeat_visits_count": 52,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 310,
+        "unaddressed_faults": 62
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 48300.0,
+        "std_fold_cost_eur": 7229.107828771127,
+        "total_cost_eur": 144900.0,
+        "mean_roc_auc": 0.9686591231412711,
+        "mean_pr_auc": 0.775900076870785,
+        "mean_precision_at_15": 0.38223333333333337,
+        "mean_recall": 0.6108666666666667
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145500.0,
+        "std_fold_cost_eur": 2244.994432064365,
+        "total_cost_eur": 727500.0,
+        "mean_roc_auc": 0.9474489199750478,
+        "mean_pr_auc": 0.6777200569940316,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.9571799999999999
+      }
+    },
+    "E-D02 (Baseline + Deltas)": {
+      "feature_count": 34,
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 30600.0,
+        "total_cost_eur": 121800.0,
+        "precision_at_15": 0.3167,
+        "recall_on_faults": 0.8629,
+        "repeat_visits_count": 53,
+        "wasted_visits_count": 164,
+        "intercepted_faults": 321,
+        "unaddressed_faults": 51
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 43900.0,
+        "std_fold_cost_eur": 3062.6785662227107,
+        "total_cost_eur": 131700.0,
+        "mean_roc_auc": 0.9738112983396218,
+        "mean_pr_auc": 0.8077509985248109,
+        "mean_precision_at_15": 0.40443333333333326,
+        "mean_recall": 0.6821666666666667
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144300.0,
+        "std_fold_cost_eur": 1469.6938456699068,
+        "total_cost_eur": 721500.0,
+        "mean_roc_auc": 0.9605539480202399,
+        "mean_pr_auc": 0.7537910499960222,
+        "mean_precision_at_15": 0.06774,
+        "mean_recall": 0.97428
+      }
+    },
+    "E-D03 (Baseline + Deltas + Surge Ratios)": {
+      "feature_count": 37,
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 28800.0,
+        "total_cost_eur": 120000.0,
+        "precision_at_15": 0.3167,
+        "recall_on_faults": 0.871,
+        "repeat_visits_count": 55,
+        "wasted_visits_count": 164,
+        "intercepted_faults": 324,
+        "unaddressed_faults": 48
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 42900.0,
+        "std_fold_cost_eur": 2887.9058156387305,
+        "total_cost_eur": 128700.0,
+        "mean_roc_auc": 0.9744814067465603,
+        "mean_pr_auc": 0.8081987627670545,
+        "mean_precision_at_15": 0.41,
+        "mean_recall": 0.6983666666666667
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144180.0,
+        "std_fold_cost_eur": 1389.100428334827,
+        "total_cost_eur": 720900.0,
+        "mean_roc_auc": 0.960940377106921,
+        "mean_pr_auc": 0.7544300732579978,
+        "mean_precision_at_15": 0.06774,
+        "mean_recall": 0.97582
+      }
+    },
+    "E-D04 (Baseline + Composite Deterioration Score)": {
+      "feature_count": 30,
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 30000.0,
+        "total_cost_eur": 121200.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8656,
+        "repeat_visits_count": 53,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 322,
+        "unaddressed_faults": 50
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44700.0,
+        "std_fold_cost_eur": 4469.899327725402,
+        "total_cost_eur": 134100.0,
+        "mean_roc_auc": 0.973876176610176,
+        "mean_pr_auc": 0.8271241196893143,
+        "mean_precision_at_15": 0.4000000000000001,
+        "mean_recall": 0.6702333333333333
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144540.0,
+        "std_fold_cost_eur": 2447.5293665245367,
+        "total_cost_eur": 722700.0,
+        "mean_roc_auc": 0.9562454178884267,
+        "mean_pr_auc": 0.7415976086171152,
+        "mean_precision_at_15": 0.0672,
+        "mean_recall": 0.9712
+      }
+    }
+  },
+  "innovation_2_signatures": {
+    "signature_diagnostics": {
+      "sig_01_connectivity_collapse": {
+        "prevalence_pct": 5.85,
+        "triggered_count": 405,
+        "severe_deficit_rate_when_active": 71.11,
+        "severe_deficit_rate_when_inactive": 4.03,
+        "relative_risk_ratio": 17.63
+      },
+      "sig_02_hardware_power_cycle_surge": {
+        "prevalence_pct": 4.03,
+        "triggered_count": 279,
+        "severe_deficit_rate_when_active": 55.91,
+        "severe_deficit_rate_when_inactive": 5.94,
+        "relative_risk_ratio": 9.41
+      },
+      "sig_03_persistent_silence_blackout": {
+        "prevalence_pct": 12.99,
+        "triggered_count": 900,
+        "severe_deficit_rate_when_active": 46.22,
+        "severe_deficit_rate_when_inactive": 2.24,
+        "relative_risk_ratio": 20.63
+      },
+      "sig_04_radio_downlink_degradation": {
+        "prevalence_pct": 1.18,
+        "triggered_count": 82,
+        "severe_deficit_rate_when_active": 69.51,
+        "severe_deficit_rate_when_inactive": 7.22,
+        "relative_risk_ratio": 9.63
+      },
+      "sig_05_multi_domain_crisis": {
+        "prevalence_pct": 5.66,
+        "triggered_count": 392,
+        "severe_deficit_rate_when_active": 59.95,
+        "severe_deficit_rate_when_inactive": 4.84,
+        "relative_risk_ratio": 12.4
+      }
+    },
+    "16wk_benchmark_with_signature_score": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 39000.0,
+      "total_cost_eur": 130200.0,
+      "precision_at_15": 0.3083,
+      "recall_on_faults": 0.8253,
+      "repeat_visits_count": 52,
+      "wasted_visits_count": 166,
+      "intercepted_faults": 307,
+      "unaddressed_faults": 65
+    },
+    "temporal_cv": {
+      "validation_type": "temporal_walk_forward",
+      "n_folds": 3,
+      "mean_fold_cost_eur": 49700.0,
+      "std_fold_cost_eur": 8206.095295571457,
+      "total_cost_eur": 149100.0,
+      "mean_roc_auc": 0.9685690887124977,
+      "mean_pr_auc": 0.7773365562334993,
+      "mean_precision_at_15": 0.38223333333333337,
+      "mean_recall": 0.5884333333333334
+    },
+    "gateway_disjoint_cv": {
+      "validation_type": "gateway_disjoint",
+      "n_folds": 5,
+      "mean_fold_cost_eur": 145620.0,
+      "std_fold_cost_eur": 2193.080025899648,
+      "total_cost_eur": 728100.0,
+      "mean_roc_auc": 0.9465891835315039,
+      "mean_pr_auc": 0.67596397679907,
+      "mean_precision_at_15": 0.06666000000000001,
+      "mean_recall": 0.9554
+    }
+  },
+  "innovation_3_gateway_baseline": {
+    "cold_start_prevalence_pct": 4.3,
+    "cold_start_rows_count": 298,
+    "16wk_benchmark": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 22800.0,
+      "total_cost_eur": 114000.0,
+      "precision_at_15": 0.3292,
+      "recall_on_faults": 0.8978,
+      "repeat_visits_count": 53,
+      "wasted_visits_count": 161,
+      "intercepted_faults": 334,
+      "unaddressed_faults": 38
+    },
+    "temporal_cv": {
+      "validation_type": "temporal_walk_forward",
+      "n_folds": 3,
+      "mean_fold_cost_eur": 46100.0,
+      "std_fold_cost_eur": 4465.422712353221,
+      "total_cost_eur": 138300.0,
+      "mean_roc_auc": 0.9766676837525402,
+      "mean_pr_auc": 0.8351337012795178,
+      "mean_precision_at_15": 0.37776666666666664,
+      "mean_recall": 0.6472000000000001
+    },
+    "gateway_disjoint_cv": {
+      "validation_type": "gateway_disjoint",
+      "n_folds": 5,
+      "mean_fold_cost_eur": 144180.0,
+      "std_fold_cost_eur": 1671.4065932620942,
+      "total_cost_eur": 720900.0,
+      "mean_roc_auc": 0.9662110922481337,
+      "mean_pr_auc": 0.7639205368706864,
+      "mean_precision_at_15": 0.06774,
+      "mean_recall": 0.9763399999999999
+    }
+  },
+  "innovation_4_priority_engine": {
+    "risk_only": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 37200.0,
+      "total_cost_eur": 128400.0,
+      "precision_at_15": 0.3083,
+      "recall_on_faults": 0.8333,
+      "repeat_visits_count": 52,
+      "wasted_visits_count": 166,
+      "intercepted_faults": 310,
+      "unaddressed_faults": 62
+    },
+    "multiplicative": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 35400.0,
+      "total_cost_eur": 126600.0,
+      "precision_at_15": 0.3083,
+      "recall_on_faults": 0.8414,
+      "repeat_visits_count": 53,
+      "wasted_visits_count": 166,
+      "intercepted_faults": 313,
+      "unaddressed_faults": 59
+    },
+    "additive": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 33000.0,
+      "total_cost_eur": 124200.0,
+      "precision_at_15": 0.3083,
+      "recall_on_faults": 0.8522,
+      "repeat_visits_count": 54,
+      "wasted_visits_count": 166,
+      "intercepted_faults": 317,
+      "unaddressed_faults": 55
+    },
+    "rank_borda": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 30000.0,
+      "total_cost_eur": 121200.0,
+      "precision_at_15": 0.3125,
+      "recall_on_faults": 0.8656,
+      "repeat_visits_count": 50,
+      "wasted_visits_count": 165,
+      "intercepted_faults": 322,
+      "unaddressed_faults": 50
+    },
+    "quadrant_boost": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 31200.0,
+      "total_cost_eur": 122400.0,
+      "precision_at_15": 0.3083,
+      "recall_on_faults": 0.8602,
+      "repeat_visits_count": 54,
+      "wasted_visits_count": 166,
+      "intercepted_faults": 320,
+      "unaddressed_faults": 52
+    }
+  },
+  "innovation_5_novelty": {
+    "novelty_prevalence_pct": 5.0,
+    "target_correlation_pearson": 0.6814,
+    "characteristics_novel_vs_normal": {
+      "mean_missing_ratio_novel": 0.586,
+      "mean_missing_ratio_normal": 0.114,
+      "mean_offline_hours_novel": 91.83,
+      "mean_offline_hours_normal": 3.51,
+      "mean_reboot_cnt_novel": 68.02,
+      "mean_reboot_cnt_normal": 1.34
+    },
+    "16wk_benchmark": {
+      "dispatches_count": 240,
+      "visit_cost_eur": 91200.0,
+      "penalty_cost_eur": 40800.0,
+      "total_cost_eur": 132000.0,
+      "precision_at_15": 0.3042,
+      "recall_on_faults": 0.8172,
+      "repeat_visits_count": 51,
+      "wasted_visits_count": 167,
+      "intercepted_faults": 304,
+      "unaddressed_faults": 68
+    },
+    "temporal_cv": {
+      "validation_type": "temporal_walk_forward",
+      "n_folds": 3,
+      "mean_fold_cost_eur": 48900.0,
+      "std_fold_cost_eur": 6984.268036093689,
+      "total_cost_eur": 146700.0,
+      "mean_roc_auc": 0.9691407979627794,
+      "mean_pr_auc": 0.7777951504665267,
+      "mean_precision_at_15": 0.3866666666666667,
+      "mean_recall": 0.601
+    },
+    "gateway_disjoint_cv": {
+      "validation_type": "gateway_disjoint",
+      "n_folds": 5,
+      "mean_fold_cost_eur": 145740.0,
+      "std_fold_cost_eur": 1763.6326148038881,
+      "total_cost_eur": 728700.0,
+      "mean_roc_auc": 0.9474986648170027,
+      "mean_pr_auc": 0.677860730549564,
+      "mean_precision_at_15": 0.06666000000000001,
+      "mean_recall": 0.95228
+    }
+  },
+  "combination_graph": {
+    "C0 (Baseline V1)": {
+      "feature_count": 29,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 37200.0,
+        "total_cost_eur": 128400.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8333,
+        "repeat_visits_count": 52,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 310,
+        "unaddressed_faults": 62
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 48300.0,
+        "std_fold_cost_eur": 7229.107828771127,
+        "total_cost_eur": 144900.0,
+        "mean_roc_auc": 0.9686591231412711,
+        "mean_pr_auc": 0.775900076870785,
+        "mean_precision_at_15": 0.38223333333333337,
+        "mean_recall": 0.6108666666666667
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145500.0,
+        "std_fold_cost_eur": 2244.994432064365,
+        "total_cost_eur": 727500.0,
+        "mean_roc_auc": 0.9474489199750478,
+        "mean_pr_auc": 0.6777200569940316,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.9571799999999999
+      }
+    },
+    "C1 (Baseline + Deterioration)": {
+      "feature_count": 30,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 30000.0,
+        "total_cost_eur": 121200.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8656,
+        "repeat_visits_count": 53,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 322,
+        "unaddressed_faults": 50
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44700.0,
+        "std_fold_cost_eur": 4469.899327725402,
+        "total_cost_eur": 134100.0,
+        "mean_roc_auc": 0.973876176610176,
+        "mean_pr_auc": 0.8271241196893143,
+        "mean_precision_at_15": 0.4000000000000001,
+        "mean_recall": 0.6702333333333333
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144540.0,
+        "std_fold_cost_eur": 2447.5293665245367,
+        "total_cost_eur": 722700.0,
+        "mean_roc_auc": 0.9562454178884267,
+        "mean_pr_auc": 0.7415976086171152,
+        "mean_precision_at_15": 0.0672,
+        "mean_recall": 0.9712
+      }
+    },
+    "C2 (Baseline + Signature)": {
+      "feature_count": 30,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 39000.0,
+        "total_cost_eur": 130200.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8253,
+        "repeat_visits_count": 52,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 307,
+        "unaddressed_faults": 65
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 49700.0,
+        "std_fold_cost_eur": 8206.095295571457,
+        "total_cost_eur": 149100.0,
+        "mean_roc_auc": 0.9685690887124977,
+        "mean_pr_auc": 0.7773365562334993,
+        "mean_precision_at_15": 0.38223333333333337,
+        "mean_recall": 0.5884333333333334
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145620.0,
+        "std_fold_cost_eur": 2193.080025899648,
+        "total_cost_eur": 728100.0,
+        "mean_roc_auc": 0.9465891835315039,
+        "mean_pr_auc": 0.67596397679907,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.9554
+      }
+    },
+    "C3 (Baseline + Gateway Baseline)": {
+      "feature_count": 32,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 24000.0,
+        "total_cost_eur": 115200.0,
+        "precision_at_15": 0.3292,
+        "recall_on_faults": 0.8925,
+        "repeat_visits_count": 53,
+        "wasted_visits_count": 161,
+        "intercepted_faults": 332,
+        "unaddressed_faults": 40
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44100.0,
+        "std_fold_cost_eur": 3608.323710533743,
+        "total_cost_eur": 132300.0,
+        "mean_roc_auc": 0.9764928725219999,
+        "mean_pr_auc": 0.8464751565348471,
+        "mean_precision_at_15": 0.3933,
+        "mean_recall": 0.6795333333333334
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144180.0,
+        "std_fold_cost_eur": 1489.1608375189028,
+        "total_cost_eur": 720900.0,
+        "mean_roc_auc": 0.9675486885524105,
+        "mean_pr_auc": 0.7658053825419116,
+        "mean_precision_at_15": 0.06774,
+        "mean_recall": 0.97606
+      }
+    },
+    "C4 (Baseline + Novelty)": {
+      "feature_count": 30,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 40800.0,
+        "total_cost_eur": 132000.0,
+        "precision_at_15": 0.3042,
+        "recall_on_faults": 0.8172,
+        "repeat_visits_count": 51,
+        "wasted_visits_count": 167,
+        "intercepted_faults": 304,
+        "unaddressed_faults": 68
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 48900.0,
+        "std_fold_cost_eur": 6984.268036093689,
+        "total_cost_eur": 146700.0,
+        "mean_roc_auc": 0.9691407979627794,
+        "mean_pr_auc": 0.7777951504665267,
+        "mean_precision_at_15": 0.3866666666666667,
+        "mean_recall": 0.601
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145740.0,
+        "std_fold_cost_eur": 1763.6326148038881,
+        "total_cost_eur": 728700.0,
+        "mean_roc_auc": 0.9474986648170027,
+        "mean_pr_auc": 0.677860730549564,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.95228
+      }
+    },
+    "C5 (Baseline + Deterioration + Signature)": {
+      "feature_count": 31,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 27600.0,
+        "total_cost_eur": 118800.0,
+        "precision_at_15": 0.3208,
+        "recall_on_faults": 0.8763,
+        "repeat_visits_count": 52,
+        "wasted_visits_count": 163,
+        "intercepted_faults": 326,
+        "unaddressed_faults": 46
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44700.0,
+        "std_fold_cost_eur": 3657.8682316343766,
+        "total_cost_eur": 134100.0,
+        "mean_roc_auc": 0.9745919328673249,
+        "mean_pr_auc": 0.8296981551724816,
+        "mean_precision_at_15": 0.39999999999999997,
+        "mean_recall": 0.6697000000000001
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144660.0,
+        "std_fold_cost_eur": 2590.4439773907484,
+        "total_cost_eur": 723300.0,
+        "mean_roc_auc": 0.9565802250079793,
+        "mean_pr_auc": 0.7437878998203051,
+        "mean_precision_at_15": 0.0672,
+        "mean_recall": 0.9698800000000001
+      }
+    },
+    "C6 (Baseline + Gateway Baseline + Deterioration)": {
+      "feature_count": 33,
+      "priority_method": "risk_only",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 28800.0,
+        "total_cost_eur": 120000.0,
+        "precision_at_15": 0.325,
+        "recall_on_faults": 0.871,
+        "repeat_visits_count": 51,
+        "wasted_visits_count": 162,
+        "intercepted_faults": 324,
+        "unaddressed_faults": 48
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44700.0,
+        "std_fold_cost_eur": 3295.4514106568163,
+        "total_cost_eur": 134100.0,
+        "mean_roc_auc": 0.9771529999245527,
+        "mean_pr_auc": 0.8403800321422713,
+        "mean_precision_at_15": 0.3933,
+        "mean_recall": 0.6693333333333333
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144300.0,
+        "std_fold_cost_eur": 1697.0562748477141,
+        "total_cost_eur": 721500.0,
+        "mean_roc_auc": 0.9676052371550595,
+        "mean_pr_auc": 0.7647565544783074,
+        "mean_precision_at_15": 0.06774,
+        "mean_recall": 0.97446
+      }
+    },
+    "C7 (Baseline + Priority Engine)": {
+      "feature_count": 29,
+      "priority_method": "quadrant_boost",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 31200.0,
+        "total_cost_eur": 122400.0,
+        "precision_at_15": 0.3083,
+        "recall_on_faults": 0.8602,
+        "repeat_visits_count": 54,
+        "wasted_visits_count": 166,
+        "intercepted_faults": 320,
+        "unaddressed_faults": 52
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 48300.0,
+        "std_fold_cost_eur": 7229.107828771127,
+        "total_cost_eur": 144900.0,
+        "mean_roc_auc": 0.9686591231412711,
+        "mean_pr_auc": 0.775900076870785,
+        "mean_precision_at_15": 0.38223333333333337,
+        "mean_recall": 0.6108666666666667
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145500.0,
+        "std_fold_cost_eur": 2244.994432064365,
+        "total_cost_eur": 727500.0,
+        "mean_roc_auc": 0.9474489199750478,
+        "mean_pr_auc": 0.6777200569940316,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.9571799999999999
+      }
+    },
+    "C8 (Baseline + Priority Engine + Signature)": {
+      "feature_count": 30,
+      "priority_method": "quadrant_boost",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 31200.0,
+        "total_cost_eur": 122400.0,
+        "precision_at_15": 0.3042,
+        "recall_on_faults": 0.8602,
+        "repeat_visits_count": 54,
+        "wasted_visits_count": 167,
+        "intercepted_faults": 320,
+        "unaddressed_faults": 52
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 49700.0,
+        "std_fold_cost_eur": 8206.095295571457,
+        "total_cost_eur": 149100.0,
+        "mean_roc_auc": 0.9685690887124977,
+        "mean_pr_auc": 0.7773365562334993,
+        "mean_precision_at_15": 0.38223333333333337,
+        "mean_recall": 0.5884333333333334
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145620.0,
+        "std_fold_cost_eur": 2193.080025899648,
+        "total_cost_eur": 728100.0,
+        "mean_roc_auc": 0.9465891835315039,
+        "mean_pr_auc": 0.67596397679907,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.9554
+      }
+    },
+    "C9 (Baseline + Priority Engine + Novelty)": {
+      "feature_count": 30,
+      "priority_method": "quadrant_boost",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 33000.0,
+        "total_cost_eur": 124200.0,
+        "precision_at_15": 0.3125,
+        "recall_on_faults": 0.8522,
+        "repeat_visits_count": 54,
+        "wasted_visits_count": 165,
+        "intercepted_faults": 317,
+        "unaddressed_faults": 55
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 48900.0,
+        "std_fold_cost_eur": 6984.268036093689,
+        "total_cost_eur": 146700.0,
+        "mean_roc_auc": 0.9691407979627794,
+        "mean_pr_auc": 0.7777951504665267,
+        "mean_precision_at_15": 0.3866666666666667,
+        "mean_recall": 0.601
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 145740.0,
+        "std_fold_cost_eur": 1763.6326148038881,
+        "total_cost_eur": 728700.0,
+        "mean_roc_auc": 0.9474986648170027,
+        "mean_pr_auc": 0.677860730549564,
+        "mean_precision_at_15": 0.06666000000000001,
+        "mean_recall": 0.95228
+      }
+    },
+    "C10 (Integrated Candidate: Base + Det + Sig + Priority)": {
+      "feature_count": 31,
+      "priority_method": "quadrant_boost",
+      "16wk_benchmark": {
+        "dispatches_count": 240,
+        "visit_cost_eur": 91200.0,
+        "penalty_cost_eur": 26400.0,
+        "total_cost_eur": 117600.0,
+        "precision_at_15": 0.325,
+        "recall_on_faults": 0.8817,
+        "repeat_visits_count": 52,
+        "wasted_visits_count": 162,
+        "intercepted_faults": 328,
+        "unaddressed_faults": 44
+      },
+      "temporal_cv": {
+        "validation_type": "temporal_walk_forward",
+        "n_folds": 3,
+        "mean_fold_cost_eur": 44700.0,
+        "std_fold_cost_eur": 3657.8682316343766,
+        "total_cost_eur": 134100.0,
+        "mean_roc_auc": 0.9745919328673249,
+        "mean_pr_auc": 0.8296981551724816,
+        "mean_precision_at_15": 0.39999999999999997,
+        "mean_recall": 0.6697000000000001
+      },
+      "gateway_disjoint_cv": {
+        "validation_type": "gateway_disjoint",
+        "n_folds": 5,
+        "mean_fold_cost_eur": 144660.0,
+        "std_fold_cost_eur": 2590.4439773907484,
+        "total_cost_eur": 723300.0,
+        "mean_roc_auc": 0.9565802250079793,
+        "mean_pr_auc": 0.7437878998203051,
+        "mean_precision_at_15": 0.0672,
+        "mean_recall": 0.9698800000000001
+      }
+    }
+  },
+  "lead_time_analysis": {
+    "week_-4": {
+      "mean_det_score": 0.1971,
+      "mean_offline_hours": 4.37,
+      "mean_missing_hours": 24.12,
+      "mean_reboot_cnt": 2.41,
+      "sample_count": 96
+    },
+    "week_-3": {
+      "mean_det_score": 0.2018,
+      "mean_offline_hours": 3.63,
+      "mean_missing_hours": 23.95,
+      "mean_reboot_cnt": 2.24,
+      "sample_count": 100
+    },
+    "week_-2": {
+      "mean_det_score": 0.2043,
+      "mean_offline_hours": 3.73,
+      "mean_missing_hours": 24.5,
+      "mean_reboot_cnt": 3.58,
+      "sample_count": 104
+    },
+    "week_-1": {
+      "mean_det_score": 0.2331,
+      "mean_offline_hours": 5.36,
+      "mean_missing_hours": 29.66,
+      "mean_reboot_cnt": 4.58,
+      "sample_count": 111
+    },
+    "week_0": {
+      "mean_det_score": 0.3753,
+      "mean_offline_hours": 21.61,
+      "mean_missing_hours": 45.21,
+      "mean_reboot_cnt": 11.59,
+      "sample_count": 111
+    }
+  },
+  "feature_redundancy_matrix": {
+    "feat_offline_hours": {
+      "feat_offline_hours": 1.0,
+      "feat_missing_hours": 0.7126,
+      "feat_reboot_cnt_total": 0.3705,
+      "feat_power_cycle_cnt": 0.2646,
+      "feat_det_offline_hours_delta": 0.1535,
+      "feat_det_missing_hours_delta": 0.139,
+      "feat_det_reboots_delta": 0.2122,
+      "feat_deterioration_score": 0.596,
+      "feat_signature_score": 0.7434,
+      "feat_gw_relative_anomaly_score": 0.2349
+    },
+    "feat_missing_hours": {
+      "feat_offline_hours": 0.7126,
+      "feat_missing_hours": 1.0,
+      "feat_reboot_cnt_total": 0.2945,
+      "feat_power_cycle_cnt": 0.1824,
+      "feat_det_offline_hours_delta": -0.0966,
+      "feat_det_missing_hours_delta": 0.2068,
+      "feat_det_reboots_delta": 0.1104,
+      "feat_deterioration_score": 0.5875,
+      "feat_signature_score": 0.8339,
+      "feat_gw_relative_anomaly_score": 0.3719
+    },
+    "feat_reboot_cnt_total": {
+      "feat_offline_hours": 0.3705,
+      "feat_missing_hours": 0.2945,
+      "feat_reboot_cnt_total": 1.0,
+      "feat_power_cycle_cnt": 0.9551,
+      "feat_det_offline_hours_delta": -0.0041,
+      "feat_det_missing_hours_delta": 0.0201,
+      "feat_det_reboots_delta": 0.5697,
+      "feat_deterioration_score": 0.2946,
+      "feat_signature_score": 0.3931,
+      "feat_gw_relative_anomaly_score": 0.0905
+    },
+    "feat_power_cycle_cnt": {
+      "feat_offline_hours": 0.2646,
+      "feat_missing_hours": 0.1824,
+      "feat_reboot_cnt_total": 0.9551,
+      "feat_power_cycle_cnt": 1.0,
+      "feat_det_offline_hours_delta": 0.0079,
+      "feat_det_missing_hours_delta": 0.0031,
+      "feat_det_reboots_delta": 0.5559,
+      "feat_deterioration_score": 0.1763,
+      "feat_signature_score": 0.234,
+      "feat_gw_relative_anomaly_score": 0.0511
+    },
+    "feat_det_offline_hours_delta": {
+      "feat_offline_hours": 0.1535,
+      "feat_missing_hours": -0.0966,
+      "feat_reboot_cnt_total": -0.0041,
+      "feat_power_cycle_cnt": 0.0079,
+      "feat_det_offline_hours_delta": 1.0,
+      "feat_det_missing_hours_delta": 0.1428,
+      "feat_det_reboots_delta": 0.2715,
+      "feat_deterioration_score": 0.3796,
+      "feat_signature_score": -0.049,
+      "feat_gw_relative_anomaly_score": 0.2238
+    },
+    "feat_det_missing_hours_delta": {
+      "feat_offline_hours": 0.139,
+      "feat_missing_hours": 0.2068,
+      "feat_reboot_cnt_total": 0.0201,
+      "feat_power_cycle_cnt": 0.0031,
+      "feat_det_offline_hours_delta": 0.1428,
+      "feat_det_missing_hours_delta": 1.0,
+      "feat_det_reboots_delta": 0.0456,
+      "feat_deterioration_score": 0.2963,
+      "feat_signature_score": 0.1646,
+      "feat_gw_relative_anomaly_score": 0.3312
+    },
+    "feat_det_reboots_delta": {
+      "feat_offline_hours": 0.2122,
+      "feat_missing_hours": 0.1104,
+      "feat_reboot_cnt_total": 0.5697,
+      "feat_power_cycle_cnt": 0.5559,
+      "feat_det_offline_hours_delta": 0.2715,
+      "feat_det_missing_hours_delta": 0.0456,
+      "feat_det_reboots_delta": 1.0,
+      "feat_deterioration_score": 0.3038,
+      "feat_signature_score": 0.1647,
+      "feat_gw_relative_anomaly_score": 0.129
+    },
+    "feat_deterioration_score": {
+      "feat_offline_hours": 0.596,
+      "feat_missing_hours": 0.5875,
+      "feat_reboot_cnt_total": 0.2946,
+      "feat_power_cycle_cnt": 0.1763,
+      "feat_det_offline_hours_delta": 0.3796,
+      "feat_det_missing_hours_delta": 0.2963,
+      "feat_det_reboots_delta": 0.3038,
+      "feat_deterioration_score": 1.0,
+      "feat_signature_score": 0.6608,
+      "feat_gw_relative_anomaly_score": 0.3008
+    },
+    "feat_signature_score": {
+      "feat_offline_hours": 0.7434,
+      "feat_missing_hours": 0.8339,
+      "feat_reboot_cnt_total": 0.3931,
+      "feat_power_cycle_cnt": 0.234,
+      "feat_det_offline_hours_delta": -0.049,
+      "feat_det_missing_hours_delta": 0.1646,
+      "feat_det_reboots_delta": 0.1647,
+      "feat_deterioration_score": 0.6608,
+      "feat_signature_score": 1.0,
+      "feat_gw_relative_anomaly_score": 0.2518
+    },
+    "feat_gw_relative_anomaly_score": {
+      "feat_offline_hours": 0.2349,
+      "feat_missing_hours": 0.3719,
+      "feat_reboot_cnt_total": 0.0905,
+      "feat_power_cycle_cnt": 0.0511,
+      "feat_det_offline_hours_delta": 0.2238,
+      "feat_det_missing_hours_delta": 0.3312,
+      "feat_det_reboots_delta": 0.129,
+      "feat_deterioration_score": 0.3008,
+      "feat_signature_score": 0.2518,
+      "feat_gw_relative_anomaly_score": 1.0
+    }
+  }
+}
