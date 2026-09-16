@@ -3,13 +3,15 @@
 
 **Project**: LPDG Innovation Hub Selection Challenge 2026 
 
-**Candidate Name**: <b> PAGADALA MOHITH <b>
+**Candidate Name**: <b>PAGADALA MOHITH</b>
 
 **Candidate Registration ID**: `23091A3286`  
+**Candidate Resume**: [`23091A3286.pdf`](23091A3286.pdf) (Pagadala Mohith)  
 **Selected Part 2 Specialization**: **Track D — Data Science & Track E — Machine Learning** (Dual Specialization)  
 
 [![Part 2 Track: Data Science](https://img.shields.io/badge/Part_2_Track_D-Data_Science-blue?style=flat-square)](DECISIONS.md)
 [![Part 2 Track: Machine Learning](https://img.shields.io/badge/Part_2_Track_E-Machine_Learning-blueviolet?style=flat-square)](DECISIONS.md)
+[![Resume](https://img.shields.io/badge/Resume-23091A3286.pdf-brightgreen?style=flat-square)](23091A3286.pdf)
 [![Predictions](https://img.shields.io/badge/Predictions-120_Rows-green?style=flat-square)](predictions.csv)
 [![Evaluation](https://img.shields.io/badge/Evaluation-8_Weeks-green?style=flat-square)](predictions.csv)
 [![Capacity](https://img.shields.io/badge/Capacity-15_Visits%2FWeek-blue?style=flat-square)](DECISIONS.md)
@@ -47,6 +49,7 @@
 | **On-Site Technician Visit Cost** | **€380.00** per dispatch (120 × €380 = **€45,600** fixed) | [LPDG Brief p. 3, FAQ R2 §3.6] |
 | **Unaddressed Fault Penalty** | **€600.00** per gateway-week an active fault persists | [LPDG Brief p. 3, FAQ R1 §4.1] |
 | **Part 2 Specialization** | **Track D (Data Science) & Track E (Machine Learning)** (Dual Focus) | [DECISIONS.md §5, LPDG Brief p. 4] |
+| **Candidate Resume** | [`23091A3286.pdf`](23091A3286.pdf) (Pagadala Mohith) | Institutional Submission Requirement |
 | **Production Architecture** | **Candidate C3** (32 Features, HistGradientBoosting, 2-Wk Cooldown) | Selected Champion Pipeline |
 | **Historical Proxy Benchmark Cost** | **€115,200** (vs €128,400 Baseline V1, vs €164,400 3-Sigma) | 16-Week Historical Benchmark |
 | **Automated Test Suite** | **79 / 79 passing** (70 Core + 9 Dashboard tests, 0 failures) | `tests/test_*.py` |
@@ -560,6 +563,7 @@ python -m streamlit run app/app.py
 ├── requirements.txt                # Minimal production dependencies (numpy, pandas, scikit-learn, pyarrow)
 ├── requirements-dashboard.txt      # Optional visualization dependencies (streamlit, plotly)
 ├── predictions.csv                 # Official 120-row competition submission artifact
+├── 23091A3286.pdf                  # Official Candidate Resume (Pagadala Mohith - Registration ID 23091A3286)
 ├── LPDG_INNOVATION_HUB.mp4         # Complete 5-minute HD operational walkthrough & demonstration
 ├── DECISIONS.md                    # Five official project decisions, alternatives, and trade-offs
 ├── AI-USAGE.md                     # AI disclosure, caught errors, and human governance log

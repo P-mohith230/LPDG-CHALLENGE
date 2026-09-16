@@ -20,6 +20,8 @@ OneDrive_2026-08-31/
 
 # Binary Documents & Resumes (Excludes candidate CV and challenge PDF)
 *.pdf
+!23091A3286.pdf
+!23091a3286.pdf
 
 # Temporary Scratch Files & Test Runs
 scratch/

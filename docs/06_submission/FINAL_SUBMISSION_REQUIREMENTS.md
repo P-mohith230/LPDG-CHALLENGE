@@ -56,7 +56,7 @@ A critical discrepancy exists between the institutional submission email from RG
 ### Final Smoke-Test Protocol (Run on a Clean Machine / Directory):
 ```bash
 # 1. Clone your public repository
-git clone https://github.com/mohhith/LPDG-Innovation-Hub-2026.git test_submission
+git clone https://github.com/P-mohith230/LPDG-CHALLENGE.git test_submission
 cd test_submission
 
 # 2. Drop challenge data folder

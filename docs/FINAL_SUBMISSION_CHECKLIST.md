@@ -50,3 +50,4 @@
 - [x] **Innovation results documented**: Innovations 1 through 5 fully documented with quantitative matrices.
 - [x] **Rejected novelty documented**: Rejection of Innovation 5 from primary dispatch fully justified with forensic data.
 - [x] **Operational walkthrough video complete**: `LPDG_INNOVATION_HUB.mp4` committed to repository, embedded in `README.md` Section 17 with continuous playback, and linked to Google Drive stream.
+- [x] **Candidate resume included**: `23091A3286.pdf` placed at repository root meeting institutional submission naming requirements.
