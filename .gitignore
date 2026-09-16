@@ -24,6 +24,7 @@ OneDrive_2026-08-31/
 # Temporary Scratch Files & Test Runs
 scratch/
 *.log
+*_raw.mp4
 
 # IDE & OS Artifacts
 .vscode/

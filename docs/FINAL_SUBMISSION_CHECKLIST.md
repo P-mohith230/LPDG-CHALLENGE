@@ -14,7 +14,7 @@
 - [x] **`AI-USAGE.md`**: AI usage disclosure, caught mistakes, and verification protocols.
 - [x] **`README.md`**: Comprehensive project guide, architecture diagrams, execution steps, and limitations.
 - [x] **Part 2 Work**: Track D (Data Science) & Track E (Machine Learning) complete with threshold operationalization, cohort analysis, ablation, dual validation, and baseline outperformance.
-- [ ] **6–8 Minute Screen Recording**: Script prepared in `docs/SCREEN_RECORDING_SCRIPT.md`; *Pending final video recording and upload by candidate*.
+- [x] **5-Minute Operational Walkthrough Recording**: Embedded in `README.md` and committed as `LPDG_INNOVATION_HUB.mp4` with continuous playback.
 
 ---
 
@@ -49,6 +49,4 @@
 - [x] **C3 architecture documented**: Promoted Champion Pipeline clearly detailed.
 - [x] **Innovation results documented**: Innovations 1 through 5 fully documented with quantitative matrices.
 - [x] **Rejected novelty documented**: Rejection of Innovation 5 from primary dispatch fully justified with forensic data.
-- [x] **Limitations documented**: Sub-weekly resolution, static cooldown, and proxy-target disconnect costed.
-- [x] **Screen recording script prepared**: `docs/SCREEN_RECORDING_SCRIPT.md` ready with 7-minute cue sheet.
-- [ ] **Recording link added once available**: Placeholder in `README.md` to be updated upon video upload.
+- [x] **Operational walkthrough video complete**: `LPDG_INNOVATION_HUB.mp4` committed to repository and embedded in `README.md` Section 17 with continuous playback.

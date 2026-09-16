@@ -557,6 +557,7 @@ python -m streamlit run app/app.py
 ├── requirements.txt                # Minimal production dependencies (numpy, pandas, scikit-learn, pyarrow)
 ├── requirements-dashboard.txt      # Optional visualization dependencies (streamlit, plotly)
 ├── predictions.csv                 # Official 120-row competition submission artifact
+├── LPDG_INNOVATION_HUB.mp4         # Complete 5-minute HD operational walkthrough & demonstration
 ├── DECISIONS.md                    # Five official project decisions, alternatives, and trade-offs
 ├── AI-USAGE.md                     # AI disclosure, caught errors, and human governance log
 ├── .gitignore                      # Strict institutional privacy firewall excluding raw challenge data
@@ -570,7 +571,6 @@ python -m streamlit run app/app.py
 ├── docs/
 │   ├── DASHBOARD_ARCHITECTURE.md   # Complete system architecture and Three.js integration spec
 │   ├── DASHBOARD_WALKTHROUGH.md    # Operational user manual for all 7 dashboard views
-│   ├── SCREEN_RECORDING_SCRIPT.md  # Official 7-minute visual & spoken cue sheet
 │   ├── FINAL_SUBMISSION_CHECKLIST.md# Comprehensive submission readiness audit checklist
 │   ├── 01_context/                 # Authoritative challenge briefs and FAQs
 │   ├── 02_decisions/               # Project Decision Register (D-01 through D-28)
@@ -593,10 +593,19 @@ python -m streamlit run app/app.py
 
 ---
 
-## 17. Screen Recording
+## 17. Operational Walkthrough & Demonstration Recording
 
-- **Presentation Script**: Complete 7-minute cue sheet with timestamps and spoken text is documented in [`docs/SCREEN_RECORDING_SCRIPT.md`](docs/SCREEN_RECORDING_SCRIPT.md).
-- **Recording Status**: `Screen recording: Pending final upload.` *(To be recorded and linked prior to the final submission deadline).*
+The complete live operational walkthrough demonstrating the interactive decision-support platform, 3D WebGL Operations Control Center, gateway self-baseline telemetry, and model intelligence features is recorded and embedded below:
+
+<div align="center">
+  <video src="LPDG_INNOVATION_HUB.mp4" autoplay loop muted playsinline width="100%"></video>
+  <p>
+    <a href="LPDG_INNOVATION_HUB.mp4">
+      <img src="docs/images/lpdg_innovation_hub_recording.webp" alt="LPDG Innovation Hub Operational Walkthrough (Continuous Recording)" width="100%"/>
+    </a>
+  </p>
+  <p><em>Continuous live recording of the LPDG Operations Control Center & Intelligence Platform. Click to open or download the full <a href="LPDG_INNOVATION_HUB.mp4"><strong>Full HD Operational Walkthrough Video (MP4)</strong></a>.</em></p>
+</div>
 
 ---
 
