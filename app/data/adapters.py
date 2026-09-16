@@ -47,8 +47,9 @@ def load_gateway_catalog(demo_mode: bool = False) -> tuple[pd.DataFrame, bool]:
         except Exception as e:
             logger.warning("Failed to load local gateway master: %s", e)
 
-    # In production mode, if local challenge data is missing, fail safely without silent synthetic fallback
-    return pd.DataFrame(), False
+    # In cloud environments where the raw 104MB challenge data is not committed to git,
+    # gracefully fallback to demo catalog so the 3D fleet view and explorer remain fully interactive
+    return generate_synthetic_catalog(), True
 
 
 def load_gateway_telemetry_history(gateway_id: str, demo_mode: bool = False) -> tuple[pd.DataFrame | None, bool]:
@@ -76,4 +77,4 @@ def load_gateway_telemetry_history(gateway_id: str, demo_mode: bool = False) -> 
             logger.warning("Failed to load local telemetry history for %s: %s", gateway_id, e)
             return None, False
 
-    return None, False
+    return generate_synthetic_telemetry_history(gateway_id), True
